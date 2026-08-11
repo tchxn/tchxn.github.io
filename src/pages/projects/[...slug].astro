@@ -1,0 +1,45 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const projects = (await getCollection('projects')).sort((a,b)=>a.data.order-b.data.order);
+  return projects.map((p,i)=>({
+    params: { slug: p.id },
+    props: { p, prev: projects[i-1] ?? null, next: projects[i+1] ?? null }
+  }));
+}
+const { p, prev, next } = Astro.props;
+const { Content } = await render(p);
+const d = p.data;
+---
+<Base title={`${d.title} — Thomas Chen`} description={d.summary} section="projects">
+<article class="detail">
+  <a href="/projects/" class="back m">← All projects</a>
+  <p class="m dim">{String(d.order).padStart(2,'0')} · {d.kind}</p>
+  <h1>{d.title}</h1>
+  <p class="lede">{d.summary}</p>
+
+  <div class="metabar">
+    {d.meta.map(m=>(<div class={m.highlight?'hi':''}><s>{m.label}</s><em>{m.value}</em></div>))}
+  </div>
+
+  <div class="prose"><Content /></div>
+
+  {d.gallery && d.gallery.length > 0 && (
+    <div class="shots">
+      {d.gallery.map(g=>(
+        <figure>
+          <img src={`/assets/${g.src}`} alt={g.caption ?? d.title} loading="lazy" />
+          {g.caption && <figcaption>{g.caption}</figcaption>}
+        </figure>
+      ))}
+    </div>
+  )}
+
+  <nav class="pager m">
+    <span>{prev ? <a href={`/projects/${prev.id}/`}>← {prev.data.title}</a> : <a href="/projects/">← Index</a>}</span>
+    <span>{next ? <a href={`/projects/${next.id}/`}>{next.data.title} →</a> : <a href="/#a6">Get in touch →</a>}</span>
+  </nav>
+</article>
+</Base>

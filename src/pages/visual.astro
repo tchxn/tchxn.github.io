@@ -1,0 +1,48 @@
+---
+import Base from '../layouts/Base.astro';
+import { getEntry } from 'astro:content';
+const visual = await getEntry('visual','visual');
+const shots = visual.data.shots;
+const cats = [
+  {k:'all',      label:'All'},
+  {k:'auto',     label:'Automotive'},
+  {k:'comm',     label:'Commercial'},
+  {k:'event',    label:'Events'},
+  {k:'personal', label:'Personal'},
+  {k:'exhib',    label:'Exhibition'}
+];
+---
+<Base title="Visual archive — Thomas Chen" section="visual">
+<div class="arch">
+  <a href="/" class="back m">← Back to start</a>
+  <h1>Visual archive</h1>
+  <p class="note">tchen.visual — since 2020. Automotive, commercial, events, personal and exhibition work. Directed, shot and cut end to end. {shots.length} pieces.</p>
+
+  <div class="filters" id="filters">
+    {cats.map((c,i)=>(<button class={i===0?'on':''} data-f={c.k}>{c.label}</button>))}
+  </div>
+
+  <div class="mas" id="mas">
+    {shots.map(s=>(
+      <div class="tile" data-c={s.category}>
+        <img src={`/assets/${s.src}`} alt={s.title} loading="lazy" />
+        <div class="ov">
+          <p class="k">{s.label}</p>
+          <h4>{s.title}</h4>
+          <div class="ex"><span>{s.kit ?? '—'}</span><span>{s.year ?? ''}</span></div>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+<script is:inline>
+  const btns=document.querySelectorAll('#filters button');
+  const tiles=document.querySelectorAll('#mas .tile');
+  btns.forEach(b=>b.onclick=()=>{
+    btns.forEach(x=>x.classList.remove('on')); b.classList.add('on');
+    const f=b.dataset.f;
+    tiles.forEach(t=>{ t.style.display = (f==='all'||t.dataset.c===f) ? '' : 'none'; });
+  });
+</script>
+</Base>

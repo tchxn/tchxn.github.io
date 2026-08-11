@@ -1,0 +1,24 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+const projects = (await getCollection('projects')).sort((a,b)=>a.data.order-b.data.order);
+---
+<Base title="Projects — Thomas Chen" section="projects">
+<div class="arch">
+  <a href="/" class="back m">← Back to start</a>
+  <h1>Projects</h1>
+  <p class="note">Index — 2023 / 2026. {projects.length} entries, ordered by strength rather than date. Each one states what I actually did, including where a project stopped.</p>
+  <div class="idx">
+    {projects.map(p=>(
+      <a class="row" href={`/projects/${p.id}/`}>
+        <div class="rtop">
+          <span class="num">{String(p.data.order).padStart(2,'0')}</span>
+          <span class="ttl">{p.data.title}</span>
+          <span class="kind">{p.data.kind}</span>
+        </div>
+        <p class="rsum">{p.data.summary}</p>
+      </a>
+    ))}
+  </div>
+</div>
+</Base>

@@ -1,0 +1,57 @@
+---
+import '../styles/global.css';
+const { title = 'Thomas Chen', description = 'Thomas Chen — information systems and design in Melbourne. Systems and service design, UX, video and photography. Master of Information Systems, University of Melbourne. Swims for Papua New Guinea.', section = '' } = Astro.props;
+const site = 'https://tchxn.github.io';
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="icon" href="/favicon.png" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={`${site}/assets/poster.jpg`} />
+<meta property="og:url" content={site} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="theme-color" content="#0A0A0B" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
+<div id="bar"></div>
+<div id="top">
+  <a href="/" class="mark m"><span class="sq"></span> Thomas Chen</a>
+  <div class="topnav m">
+    <a href="/projects/" aria-current={section === 'projects' ? 'page' : undefined}>Projects</a>
+    <a href="/visual/" aria-current={section === 'visual' ? 'page' : undefined}>Visual</a>
+    <a href="/#a5">Info</a>
+  </div>
+  <a href="/#a6" class="cta m">Get in touch →</a>
+</div>
+
+<main><slot /></main>
+
+<div id="foot" class="m">
+  <span><span style="color:var(--ac)">▪</span> <b id="f-sec">{section || '00 — Intro'}</b></span>
+  <span class="hs">Progress <b id="f-p">0%</b></span>
+  <span><b id="f-t">--:--:--</b> AEST</span>
+</div>
+
+<script is:inline>
+  addEventListener('scroll',()=>{
+    const h=document.body.scrollHeight-innerHeight, p=h>0?scrollY/h:0;
+    const fp=document.getElementById('f-p'); if(fp) fp.textContent=Math.round(p*100)+'%';
+    const b=document.getElementById('bar'); if(b) b.style.width=(p*100)+'%';
+  });
+  setInterval(()=>{
+    const el=document.getElementById('f-t');
+    if(el) el.textContent=new Date().toLocaleTimeString('en-AU',{hour12:false,timeZone:'Australia/Melbourne'});
+  },1000);
+</script>
+</body>
+</html>
