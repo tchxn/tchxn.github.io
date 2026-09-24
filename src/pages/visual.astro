@@ -2,47 +2,113 @@
 import Base from '../layouts/Base.astro';
 import { getEntry } from 'astro:content';
 const visual = await getEntry('visual','visual');
-const shots = visual.data.shots;
+const series = visual.data.series;
+const labels = { auto:'Automotive', event:'Event', comm:'Commercial', art:'Art' };
 const cats = [
-  {k:'all',      label:'All'},
-  {k:'auto',     label:'Automotive'},
-  {k:'comm',     label:'Commercial'},
-  {k:'event',    label:'Events'},
-  {k:'personal', label:'Personal'},
-  {k:'exhib',    label:'Exhibition'}
-];
+  { k:'all',   label:'All' },
+  { k:'auto',  label:'Automotive' },
+  { k:'event', label:'Events' },
+  { k:'comm',  label:'Commercial' },
+  { k:'art',   label:'Art & exhibition' }
+].map(c => ({ ...c, n: c.k==='all' ? series.length : series.filter(s=>s.category===c.k).length }));
+const frames = series.reduce((n,s)=>n+s.frames.length,0);
+// what the viewer needs, keyed by set id
+const sets = Object.fromEntries(series.map(s=>[s.id,{
+  title:s.title, label:labels[s.category], year:s.year ?? '', kit:s.kit ?? '',
+  frames:s.frames.map(f=>f.src)
+}]));
 ---
 <Base title="Visual archive — Thomas Chen" section="visual">
 <div class="arch">
   <a href="/" class="back m">← Back to start</a>
   <h1>Visual archive</h1>
-  <p class="note">tchen.visual — since 2020. Automotive, commercial, events, personal and exhibition work. Directed, shot and cut end to end. {shots.length} pieces.</p>
+  <p class="note">tchen.visual — since 2020. Cars, events, commercial work and exhibited art, grouped by shoot. Directed, shot and cut end to end. {series.length} sets, {frames} frames.</p>
 
   <div class="filters" id="filters">
-    {cats.map((c,i)=>(<button class={i===0?'on':''} data-f={c.k}>{c.label}</button>))}
+    {cats.filter(c=>c.n>0).map((c,i)=>(<button class={i===0?'on':''} data-f={c.k}>{c.label} <span class="n">{c.n}</span></button>))}
   </div>
 
   <div class="mas" id="mas">
-    {shots.map(s=>(
-      <div class="tile" data-c={s.category}>
-        <img src={`/assets/${s.src}`} alt={s.title} loading="lazy" />
+    {series.map(s=>{
+      const f=s.frames[0];
+      return (
+      <a class={`tile set${s.frames.length>1?' multi':''}`} data-c={s.category} data-set={s.id} href={`#${s.id}`}>
+        <img src={`/assets/v/${f.src}-t.webp`} width={f.w} height={f.h} alt={s.title} loading="lazy" decoding="async" />
+        {s.frames.length>1 && <span class="count m">{s.frames.length} frames</span>}
         <div class="ov">
-          <p class="k">{s.label}</p>
+          <p class="k">{labels[s.category]}</p>
           <h4>{s.title}</h4>
-          <div class="ex"><span>{s.kit ?? '—'}</span><span>{s.year ?? ''}</span></div>
+          <div class="ex"><span>{s.kit ?? ''}</span><span>{s.year ?? ''}</span></div>
         </div>
-      </div>
-    ))}
+      </a>
+    )})}
   </div>
 </div>
 
-<script is:inline>
-  const btns=document.querySelectorAll('#filters button');
-  const tiles=document.querySelectorAll('#mas .tile');
+<dialog id="lb" class="lb" aria-label="Photo viewer">
+  <div class="lb-top m">
+    <div class="lb-meta"><span class="lb-k" id="lb-k"></span><b id="lb-title"></b><span id="lb-sub"></span></div>
+    <span class="lb-n" id="lb-n"></span>
+    <button class="lb-btn lb-x" id="lb-x" aria-label="Close">✕</button>
+  </div>
+  <div class="lb-stage" id="lb-stage">
+    <button class="lb-btn lb-prev" id="lb-prev" aria-label="Previous photo">←</button>
+    <img id="lb-img" alt="" />
+    <button class="lb-btn lb-next" id="lb-next" aria-label="Next photo">→</button>
+  </div>
+  <div class="lb-strip" id="lb-strip"></div>
+</dialog>
+
+<script is:inline define:vars={{sets}}>
+  // filters
+  const btns=document.querySelectorAll('#filters button'), tiles=document.querySelectorAll('#mas .tile');
   btns.forEach(b=>b.onclick=()=>{
     btns.forEach(x=>x.classList.remove('on')); b.classList.add('on');
     const f=b.dataset.f;
-    tiles.forEach(t=>{ t.style.display = (f==='all'||t.dataset.c===f) ? '' : 'none'; });
+    tiles.forEach(t=>{ t.style.display=(f==='all'||t.dataset.c===f)?'':'none'; });
   });
+
+  // viewer
+  const lb=document.getElementById('lb'), img=document.getElementById('lb-img'), strip=document.getElementById('lb-strip');
+  const $=id=>document.getElementById(id);
+  let cur=null, i=0;
+  const full=src=>`/assets/v/${src}.webp`, thumb=src=>`/assets/v/${src}-t.webp`;
+  function show(n){
+    const s=sets[cur]; i=(n+s.frames.length)%s.frames.length;
+    img.classList.remove('in'); img.src=full(s.frames[i]); img.alt=`${s.title}, frame ${i+1} of ${s.frames.length}`;
+    img.onload=()=>img.classList.add('in');
+    $('lb-n').textContent=`${String(i+1).padStart(2,'0')} / ${String(s.frames.length).padStart(2,'0')}`;
+    strip.querySelectorAll('button').forEach((b,k)=>b.classList.toggle('on',k===i));
+    const nx=new Image(); nx.src=full(s.frames[(i+1)%s.frames.length]); // preload next
+  }
+  function open(id,push=true){
+    const s=sets[id]; if(!s) return; cur=id;
+    $('lb-k').textContent=s.label; $('lb-title').textContent=s.title;
+    $('lb-sub').textContent=[s.kit,s.year].filter(Boolean).join(' · ');
+    const one=s.frames.length<2;
+    lb.classList.toggle('single',one);
+    strip.innerHTML=one?'':s.frames.map((f,k)=>`<button aria-label="Frame ${k+1}"><img src="${thumb(f)}" alt="" loading="lazy"></button>`).join('');
+    strip.querySelectorAll('button').forEach((b,k)=>b.onclick=()=>show(k));
+    if(!lb.open) lb.showModal();
+    document.documentElement.style.overflow='hidden';
+    show(0);
+    if(push) history.replaceState(null,'',`#${id}`);
+  }
+  function close(){ lb.close(); }
+  lb.addEventListener('close',()=>{ document.documentElement.style.overflow=''; cur=null; history.replaceState(null,'',location.pathname); });
+  tiles.forEach(t=>t.onclick=e=>{ e.preventDefault(); open(t.dataset.set); });
+  $('lb-x').onclick=close;
+  $('lb-prev').onclick=()=>show(i-1);
+  $('lb-next').onclick=()=>show(i+1);
+  lb.addEventListener('click',e=>{ if(e.target===lb||e.target.id==='lb-stage') close(); });
+  addEventListener('keydown',e=>{ if(!cur) return;
+    if(e.key==='ArrowRight') show(i+1); else if(e.key==='ArrowLeft') show(i-1); });
+  let x0=null;
+  $('lb-stage').addEventListener('touchstart',e=>{x0=e.touches[0].clientX},{passive:true});
+  $('lb-stage').addEventListener('touchend',e=>{ if(x0==null) return; const dx=e.changedTouches[0].clientX-x0;
+    if(Math.abs(dx)>40) show(i+(dx<0?1:-1)); x0=null; });
+  // a link like /visual/#evo-vi opens that set directly
+  if(location.hash && sets[location.hash.slice(1)]) open(location.hash.slice(1),false);
+  addEventListener('hashchange',()=>{ const id=location.hash.slice(1); if(sets[id] && id!==cur) open(id,false); });
 </script>
 </Base>

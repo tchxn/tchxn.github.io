@@ -24,13 +24,13 @@ const projects = defineCollection({
 const visual = defineCollection({
   loader: glob({ pattern: 'visual.md', base: './content' }),
   schema: z.object({
-    shots: z.array(z.object({
-      src: z.string(),
-      category: z.enum(['auto','comm','event','personal','exhib']),
-      label: z.string(),
+    series: z.array(z.object({
+      id: z.string(),
       title: z.string(),
+      category: z.enum(['auto','event','comm','art']),
+      year: z.string().optional(),
       kit: z.string().optional(),
-      year: z.string().optional()
+      frames: z.array(z.object({ src: z.string(), w: z.number(), h: z.number() })).min(1)
     }))
   })
 });

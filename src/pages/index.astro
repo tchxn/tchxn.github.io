@@ -4,7 +4,11 @@ import { getCollection, getEntry } from 'astro:content';
 
 const projects = (await getCollection('projects')).sort((a,b)=>a.data.order-b.data.order);
 const visual = await getEntry('visual','visual');
-const hero = visual.data.shots.filter(s=>s.category==='auto').slice(0,5);
+// Act 04 slideshow: the cover of the first five landscape automotive sets, at full size
+const hero = visual.data.series
+  .filter(s=>s.category==='auto' && s.frames[0].w > s.frames[0].h)
+  .slice(0,5)
+  .map(s=>({ src:`v/${s.frames[0].src}.webp`, title:s.title, kit:s.kit, year:s.year }));
 ---
 <Base title="Thomas Chen — Information systems, design, video">
 
@@ -104,7 +108,7 @@ const hero = visual.data.shots.filter(s=>s.category==='auto').slice(0,5);
       let i=0;
       const paint=()=>{const s=hero[i];ex.innerHTML=
         `<span>Frame <b>${String(i+1).padStart(2,'0')}/${String(hero.length).padStart(2,'0')}</b></span>`+
-        `<span>Subject <b>${s.title}</b></span><span>Kit <b>${s.kit||'—'}</b></span><span>Year <b>${s.year||''}</b></span>`};
+        `<span>Subject <b>${s.title}</b></span>`+(s.kit?`<span>Kit <b>${s.kit}</b></span>`:'')+(s.year?`<span>Year <b>${s.year}</b></span>`:'')};
       paint();
       setInterval(()=>{sl.children[i].classList.remove('on');i=(i+1)%hero.length;
         sl.children[i].classList.add('on');paint()},3600);
