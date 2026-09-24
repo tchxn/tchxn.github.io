@@ -27,7 +27,7 @@ const hero = visual.data.shots.filter(s=>s.category==='auto').slice(0,5);
 <section class="act" id="a1"><div class="inner">
   <p class="actno m rv">Act <i>01</i> — Method</p>
   <h2 class="big rv">I take things apart.</h2>
-  <p class="sub rv">Give me something that isn't working and I'll find where it actually breaks — not where it looks like it breaks. Here's a real one: a handwritten delivery slip from a distribution business in Port Moresby.</p>
+  <p class="sub rv">Give me something that isn't working and I'll find where it actually breaks — not where it looks like it breaks. Here's a real one: a handwritten delivery slip from a family distribution business in Papua New Guinea.</p>
   <div class="dissect">
     <div class="stage"><span class="cap">01 — As found</span><div class="in">
       <p class="scrawl">order #—<br />4 × tofu, 2 × noodle<br />K840 cash?<br />driver — <s>the usual guy</s><br />“left this morning”<br /><s>paid? ask later</s></p></div></div>
@@ -61,7 +61,7 @@ const hero = visual.data.shots.filter(s=>s.category==='auto').slice(0,5);
     <div class="node gap"><p class="st">Stage 05</p><p class="nm">Delivered</p><p class="rl">Unverified</p></div>
     <div class="node"><p class="st">Stage 06</p><p class="nm">Reconciled</p><p class="rl">Manager</p></div>
   </div>
-  <p class="verdict rv"><b>Delivery Control</b> — concept and systems design, 2026. Problem analysis, risk model, role and permission design, written specification. Not built.</p>
+  <p class="verdict rv"><b>Delivery Control</b> — systems design, 2026. I wrote the specification, data model and permission design, and directed an AI coding agent to build a working prototype. <b>Built and demoed</b> to the owners; not rolled out.</p>
   <a class="go m rv" href="/projects/">See all {projects.length} projects →</a>
 </div></section>
 
@@ -118,12 +118,16 @@ const hero = visual.data.shots.filter(s=>s.category==='auto').slice(0,5);
   <div class="who">
     <div>
       <p class="rv">I'm doing a <b>Master of Information Systems</b> at the University of Melbourne, after a design degree majoring in UX. In practice I'm as comfortable modelling roles and permissions as running a usability session.</p>
-      <p class="rv">My family runs a vertically integrated food business in Port Moresby — the city's first tofu producer, three stores, a bakery and a delivery fleet. I've done operations and systems support there since 2022. That slip in Act 01 is real.</p>
+      <p class="rv">Since 2022 I've done operations and systems support for a family business in Papua New Guinea: two sites, each a retail front with manufacturing and a warehouse behind it, plus a delivery fleet. That slip in Act 01 is real.</p>
       <p class="rv">I swim for <b>Papua New Guinea</b> — 50 breaststroke, butterfly, freestyle. World Championships, Pacific Games, Oceania Championships, and Short Course Worlds in Beijing this December. I got back after labrum surgery and an ACL reconstruction. Two years. It taught me more about following a plan than any job has.</p>
       <p class="rv">Away from a screen I <b>work on cars and fix machinery</b>. Same instinct as everything above: take it apart, find where it's actually failing, put it back properly.</p>
     </div>
     <div class="card rv">
-      <img src="/assets/me-personal.webp" alt="Thomas Chen" />
+      <div class="pslides" id="pslides" role="button" tabindex="0" aria-label="Show the other photo">
+        <img class="on" src="/assets/me-suit.webp" alt="Thomas Chen in a suit in a Melbourne garden at dusk" data-label="On a screen" style="object-position:center 58%" />
+        <img src="/assets/me-personal.webp" alt="Thomas Chen beside a blue Subaru WRX STI at night" data-label="Off a screen" loading="lazy" />
+        <span class="plabel m" id="plabel">01 / 02 · On a screen</span>
+      </div>
       <div class="li"><s>Based</s><em>Melbourne, VIC</em></div>
       <div class="li"><s>Studying</s><em>M. Information Systems</em></div>
       <div class="li"><s>Languages</s><em>EN · 中文 · Tok Pisin</em></div>
@@ -152,6 +156,18 @@ const hero = visual.data.shots.filter(s=>s.category==='auto').slice(0,5);
       if(e.intersectionRatio>.5){const f=document.getElementById('f-sec');if(f)f.textContent=names[e.target.id]||''}}
   }),{threshold:[.15,.55]});
   document.querySelectorAll('.act').forEach(a=>io.observe(a));
+  // Act 05 portrait: two photos, one person — crossfade, click or Enter to swap
+  (function(){
+    const box=document.getElementById('pslides'); if(!box) return;
+    const imgs=[...box.querySelectorAll('img')], lab=document.getElementById('plabel');
+    let i=0, t;
+    const show=n=>{imgs[i].classList.remove('on');i=(n+imgs.length)%imgs.length;imgs[i].classList.add('on');
+      lab.textContent=`${String(i+1).padStart(2,'0')} / ${String(imgs.length).padStart(2,'0')} · ${imgs[i].dataset.label}`};
+    const auto=()=>{clearInterval(t);if(!matchMedia('(prefers-reduced-motion: reduce)').matches)t=setInterval(()=>show(i+1),4800)};
+    box.onclick=()=>{show(i+1);auto()};
+    box.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();show(i+1);auto()}};
+    auto();
+  })();
   const vid=document.getElementById('reel'), rp=document.getElementById('rp');
   if(vid&&rp) rp.onclick=()=>{if(vid.paused){vid.play();rp.textContent='Pause'}else{vid.pause();rp.textContent='Play'}};
 </script>

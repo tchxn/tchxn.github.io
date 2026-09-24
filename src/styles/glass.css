@@ -1,0 +1,147 @@
+/* ---------- glass layer ----------
+   Loaded after global.css. Two parts:
+   1. an ambient light field behind the page, so the black has depth and the glass has something to refract;
+   2. a glass material applied to anything that sits on top of the page (chrome, cards, buttons, frames). */
+
+:root{
+  --glass-fill:linear-gradient(180deg,rgba(255,255,255,.075),rgba(255,255,255,.028));
+  --glass-edge:rgba(255,255,255,.10);
+  --glass-blur:blur(22px) saturate(175%);
+  --glass-shadow:inset 0 1px 0 rgba(255,255,255,.16),inset 0 -1px 0 rgba(255,255,255,.03),
+    0 1px 2px rgba(0,0,0,.4),0 18px 40px -18px rgba(0,0,0,.75);
+  --r-lg:24px; --r-md:16px; --r-sm:12px;
+}
+
+/* ---------- 1. ambient light ---------- */
+.amb{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;background:var(--bg)}
+.amb i{position:absolute;border-radius:50%;filter:blur(90px);opacity:.75;will-change:transform}
+.amb i:nth-child(1){width:52vmax;height:52vmax;left:-14vmax;top:-18vmax;
+  background:radial-gradient(circle,rgba(128,70,220,.38),transparent 62%);animation:drift1 38s ease-in-out infinite alternate}
+.amb i:nth-child(2){width:46vmax;height:46vmax;right:-16vmax;top:22vh;
+  background:radial-gradient(circle,rgba(var(--flip-blue),.26),transparent 62%);animation:drift2 46s ease-in-out infinite alternate}
+.amb i:nth-child(3){width:40vmax;height:40vmax;left:18vw;bottom:-22vmax;
+  background:radial-gradient(circle,rgba(var(--flip-green),.10),transparent 62%);animation:drift3 52s ease-in-out infinite alternate}
+@keyframes drift1{to{transform:translate(12vw,10vh) scale(1.08)}}
+@keyframes drift2{to{transform:translate(-10vw,-14vh) scale(.94)}}
+@keyframes drift3{to{transform:translate(-8vw,-6vh) scale(1.1)}}
+/* film grain keeps the gradients from banding and gives the black a surface */
+.amb::after{content:'';position:absolute;inset:-50%;opacity:.07;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+body{background:transparent}
+html{background:var(--bg)}
+.act{border-bottom-color:rgba(255,255,255,.05)}
+
+/* ---------- 2. the material ---------- */
+#top,#foot,.stage,.node,.ia .col,.card,.metabar,.verdict,.go,.cbtns a,.cta,.vbtn,
+.filters button,.tile,.prose figure.shot img,.row::before{
+  background:var(--glass-fill);
+  -webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur);
+  border:1px solid var(--glass-edge);
+  box-shadow:var(--glass-shadow);
+}
+/* pointer-tracked specular highlight, set by the script in Base.astro */
+.stage,.node,.ia .col,.card,.metabar,.tile{position:relative;isolation:isolate}
+.lit::before{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:-1;
+  background:radial-gradient(420px circle at var(--x,50%) var(--y,-20%),rgba(255,255,255,.09),transparent 45%);
+  opacity:0;transition:opacity .3s}
+.lit:hover::before{opacity:1}
+
+/* ---------- chrome: floating pills ---------- */
+#top{top:12px;left:max(12px,calc(var(--pad) - 14px));right:max(12px,calc(var(--pad) - 14px));
+  max-width:1240px;margin:0 auto;padding:8px 8px 8px 18px;border-radius:999px}
+.topnav a{border-radius:999px;padding:7px 12px}
+.topnav a:hover{background:rgba(255,255,255,.06)}
+.topnav a[aria-current]{background:rgba(var(--ac-rgb),.12);color:var(--ac)}
+.cta{border-radius:999px;border-color:rgba(var(--ac-rgb),.45);padding:8px 15px;
+  background:linear-gradient(180deg,rgba(var(--ac-rgb),.22),rgba(var(--ac-rgb),.10))}
+.cta:hover{background:var(--ac);color:var(--ac-ink);border-color:var(--ac)}
+.sq{border-radius:4px}.sq::after{border-radius:2px}
+#bar{top:0;height:2px;border-radius:0 2px 2px 0;box-shadow:0 0 12px var(--ac)}
+#foot{bottom:12px;left:50%;right:auto;transform:translateX(-50%);width:min(760px,calc(100vw - 24px));
+  padding:8px 18px;border-radius:999px}
+
+/* ---------- buttons ---------- */
+.go,.cbtns a,.vbtn,.filters button{border-radius:999px}
+.go{padding:12px 22px}
+.go:hover,.cbtns a:hover,.vbtn:hover,.filters button:hover{border-color:rgba(var(--ac-rgb),.55);color:var(--ac)}
+.cbtns a.pri{background:linear-gradient(180deg,#B8A9FF,#8B74F6);color:var(--ac-ink);border-color:rgba(215,205,255,.6);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 10px 30px -10px rgba(var(--ac-rgb),.55)}
+.cbtns a.pri:hover{color:var(--ac-ink);filter:brightness(1.06)}
+.filters button.on{background:linear-gradient(180deg,rgba(var(--ac-rgb),.24),rgba(var(--ac-rgb),.10));
+  border-color:rgba(var(--ac-rgb),.5);color:var(--ac)}
+.vbtn{top:78px}
+
+/* ---------- cards ---------- */
+.stage,.ia .col{border-radius:var(--r-lg)}
+.stage .cap{top:14px;left:14px;border-radius:999px;background:rgba(255,255,255,.07);padding:5px 11px}
+.stage .cap.hi{background:var(--ac);color:var(--ac-ink)}
+.stage .in{padding-top:34px}
+.node{border-radius:var(--r-md)}
+.node.gap{border:1px dashed rgba(var(--warn-rgb),.45);background:linear-gradient(180deg,rgba(var(--warn-rgb),.08),rgba(var(--warn-rgb),.02))}
+.chip{border-radius:999px;border-color:rgba(255,255,255,.12);background:rgba(255,255,255,.04)}
+.verdict{border-radius:var(--r-md);border-left:1px solid var(--glass-edge);padding:18px 22px 18px 24px;position:relative;overflow:hidden}
+.verdict::before{content:'';position:absolute;left:0;top:14px;bottom:14px;width:3px;border-radius:0 3px 3px 0;background:var(--ac)}
+.card{border-radius:var(--r-lg);overflow:hidden}
+.card .li{border-top-color:rgba(255,255,255,.07)}
+
+/* Act 05 portrait slideshow */
+.pslides{position:relative;aspect-ratio:4/5;overflow:hidden;cursor:pointer;outline:none}
+.pslides img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%;
+  opacity:0;transform:scale(1.03);transition:opacity 1.1s ease,transform 5s ease}
+.pslides img.on{opacity:1;transform:none}
+.pslides:focus-visible{box-shadow:inset 0 0 0 2px var(--ac)}
+.plabel{position:absolute;left:12px;bottom:12px;z-index:2;padding:6px 12px;border-radius:999px;font-size:10px;
+  color:var(--txt);background:rgba(8,7,15,.35);border:1px solid rgba(255,255,255,.14);
+  -webkit-backdrop-filter:blur(14px) saturate(160%);backdrop-filter:blur(14px) saturate(160%)}
+
+/* hero + visual: glass over imagery is where it reads best */
+#a0 .roles span{padding:6px 13px;border-radius:999px;background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.10);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+#a4 .exif{gap:8px}
+#a4 .exif span{padding:6px 12px;border-radius:999px;background:rgba(8,7,15,.35);
+  border:1px solid rgba(255,255,255,.10);-webkit-backdrop-filter:blur(14px) saturate(160%);backdrop-filter:blur(14px) saturate(160%)}
+.tile{border-radius:var(--r-md);overflow:hidden;padding:0;margin-bottom:12px}
+.tile .ov{border-radius:inherit}
+.tile .ov .ex{border-top-color:rgba(255,255,255,.12)}
+
+/* ---------- projects index + detail ---------- */
+.idx{border-top-color:rgba(255,255,255,.07)}
+.row{border-bottom-color:rgba(255,255,255,.07)}
+.row::before{border-radius:var(--r-md);top:4px;bottom:4px;left:-18px;right:-18px}
+.metabar{border-radius:var(--r-lg);overflow:hidden}
+.metabar div{border-right-color:rgba(255,255,255,.07)}
+.prose figure.shot img{border-radius:var(--r-md);padding:6px;background-clip:padding-box}
+.prose figure.shot.phone img{border-radius:28px;padding:8px}
+.pager{border-top-color:rgba(255,255,255,.07)}
+
+@media(max-width:700px){
+  #top{border-radius:22px;padding:10px 10px 8px 16px;left:10px;right:10px}
+  #foot{bottom:10px;padding:7px 14px}
+  .metabar div{border-bottom-color:rgba(255,255,255,.07)}
+}
+@media(prefers-reduced-motion:reduce){.amb i{animation:none}}
+/* without backdrop-filter, fall back to a solid enough tint to keep text readable */
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  #top,#foot,.stage,.node,.ia .col,.card,.metabar,.verdict,.tile{background:rgba(24,24,28,.92)}
+}
+
+/* ---------- type: labels in Atkinson Hyperlegible Mono, notes in Atkinson Hyperlegible Next ---------- */
+.arch .note{font-family:'Atkinson Hyperlegible Next',Archivo,sans-serif;font-size:16px;letter-spacing:0;
+  line-height:1.65;color:var(--txt2);max-width:60ch}
+.prose figure.shot figcaption,.shots figcaption{font-family:'Atkinson Hyperlegible Next',Archivo,sans-serif;
+  font-size:13.5px;letter-spacing:0;color:var(--txt3)}
+
+/* ---------- projects index: summary sits under the title, with room at the bottom ---------- */
+.row .rtop{transition:padding .25s}
+.row:hover .rtop{padding-left:14px}
+.row .rsum{margin-left:68px;padding-right:18px}
+.row:hover .rsum{max-height:280px;margin-top:0;padding-bottom:24px;margin-left:82px}
+@media(max-width:700px){
+  .row .rsum,.row:hover .rsum{margin-left:42px;padding-bottom:16px}
+  .row::before{left:-10px;right:-10px}
+}
+
+/* two images side by side in a case study */
+.prose figure.shot.pair{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start}
+.prose figure.shot.pair figcaption{grid-column:1/-1;margin-top:0}
+@media(max-width:700px){.prose figure.shot.pair{grid-template-columns:1fr}}

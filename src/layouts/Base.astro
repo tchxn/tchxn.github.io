@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import '../styles/glass.css';
 const { title = 'Thomas Chen', description = 'Thomas Chen — information systems and design in Melbourne. Systems and service design, UX, video and photography. Master of Information Systems, University of Melbourne. Swims for Papua New Guinea.', section = '' } = Astro.props;
 const site = 'https://tchxn.github.io';
 ---
@@ -17,12 +18,13 @@ const site = 'https://tchxn.github.io';
 <meta property="og:image" content={`${site}/assets/poster.jpg`} />
 <meta property="og:url" content={site} />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="theme-color" content="#0A0A0B" />
+<meta name="theme-color" content="#08070F" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Atkinson+Hyperlegible+Mono:wght@400;500&family=Atkinson+Hyperlegible+Next:wght@400;500&display=swap" rel="stylesheet" />
 </head>
 <body>
+<div class="amb" aria-hidden="true"><i></i><i></i><i></i></div>
 <div id="bar"></div>
 <div id="top">
   <a href="/" class="mark m"><span class="sq"></span> Thomas Chen</a>
@@ -43,6 +45,15 @@ const site = 'https://tchxn.github.io';
 </div>
 
 <script is:inline>
+  // specular highlight that follows the pointer across glass cards
+  document.querySelectorAll('.stage,.node,.ia .col,.card,.metabar,.tile').forEach(el=>{
+    el.classList.add('lit');
+    el.addEventListener('pointermove',e=>{
+      const r=el.getBoundingClientRect();
+      el.style.setProperty('--x',(e.clientX-r.left)+'px');
+      el.style.setProperty('--y',(e.clientY-r.top)+'px');
+    });
+  });
   addEventListener('scroll',()=>{
     const h=document.body.scrollHeight-innerHeight, p=h>0?scrollY/h:0;
     const fp=document.getElementById('f-p'); if(fp) fp.textContent=Math.round(p*100)+'%';
