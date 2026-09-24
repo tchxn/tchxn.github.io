@@ -45,13 +45,13 @@ An order-to-reconciliation system where **the audit log is the deliverable** and
 
 ## How it works
 
-I wrote the specification, data model and permission design, and directed an AI coding agent to build a working prototype against it: React and TypeScript on the front, Supabase (Postgres, authentication, row-level security) behind it, with the schema kept in versioned migrations.
+I wrote the specification, data model and permission design, and directed an AI coding agent to build a working prototype against it: a web app over a hosted relational database, with real accounts and roles, with every schema change tracked, so the database can be rebuilt from scratch.
 
 The rules live in the database, not the interface:
 
-- **Status only changes through workflow functions.** A direct edit to an order's status is rejected. Each function checks the caller's role and whether the move is legal — a driver can't mark an order reconciled, nothing jumps from created to dispatched — then writes the change and its audit event in one transaction.
-- **The audit log is append-only.** A trigger rejects any edit or delete, including by admins. Timestamps come from the server, never the device.
-- **Drivers see only their own jobs.** Row-level security scopes every query, so it doesn't depend on a menu item being hidden.
+- **An order can only move to the next status through the rules of the workflow, checked on the server, so a client cannot skip a step.** A direct edit to an order's status is rejected. Every move checks who is making it and whether it is allowed — a driver can't mark an order reconciled, nothing jumps from created to dispatched — and the change and its audit record are saved together, so one never happens without the other.
+- **The audit log can only be added to.** Nothing in it can be edited or deleted afterwards, including by an administrator. That was the point: a record an admin can quietly change is not evidence. Timestamps come from the server, never the device.
+- **Drivers see only their own jobs.** Permissions are enforced in the database, not in the interface, because hiding a button is not an access control. A driver's account cannot read another driver's jobs even if the request is made directly.
 - **Discrepancies need words.** A failed or partial delivery needs a reason. Cash that differs from what was expected needs a reason. An Exception needs a manager's note before it can close.
 - **Nobody signs themselves up.** Managers create staff accounts; any other signup starts inactive with no access to data.
 
