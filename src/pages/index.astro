@@ -1,17 +1,17 @@
 ---
 import Base from '../layouts/Base.astro';
 
-// Selected work: two feature cards, then four portrait cards alternating systems and visual.
-// Delivery Control is left out on purpose: it has its own case section further down.
+// Selected work, chosen by a hiring-panel review (Oct 2026): each card states context, role and result.
+// Two feature cards, then four portrait cards. Delivery Control has its own case section further down.
 const features = [
-  { href:'/projects/toolbox-education/', img:'/assets/toolbox.webp', alt:'Toolbox Education website on a screen in an office', tag:'Systems · UX & IA · 2025', sys:true, title:'Toolbox Education', sum:'Ten-week internship. A 20+ page site regrouped by who is asking, with enquiries routed into HubSpot.' },
-  { href:'/projects/an-extension-of-myself/', img:'/assets/exh-install.webp', alt:'Thomas standing between a black and a pink guardian lion under the exhibition title wall', tag:'Visual · Exhibition · 2023', title:'An Extension of Myself', sum:'First solo exhibition, Court House Gallery, Cairns. Earned through the Tanks Arts Centre Curator\'s Award.' },
+  { href:'/projects/toolbox-education/', img:'/assets/toolbox.webp', alt:'Toolbox Education website on a screen in an office', tag:'Systems · UX & systems intern · 2025', sys:true, title:'Toolbox Education', sum:'Parents and principals were landing on the same pages, so enquiries got answered twice or not at all. I regrouped 20+ pages by who is asking and routed enquiries into their HubSpot CRM.' },
+  { href:'/projects/an-extension-of-myself/', img:'/assets/exh-install.webp', alt:'Thomas standing between a black and a pink guardian lion under the exhibition title wall', tag:'Visual · Solo exhibition · 2023', title:'An Extension of Myself', sum:'First solo show, earned through the Tanks Arts Centre Curator\'s Award. Court House Gallery, Cairns: 9,731 visitors, 4 works sold.' },
 ];
 const rest = [
-  { href:'/projects/fortus/', img:'/assets/fortus-2.webp', alt:'Two Fortus app screens on phones', tag:'Systems · Product · 2024–25', sys:true, title:'Fortus', sum:'Five interfaces, one component system. +32% weekly active users, client figure.', bg:'#1B1B1B' },
-  { href:'/visual/#bendigo', img:'/assets/v/bendigo-01.webp', alt:'Lion dance costumes against a blue sky in Bendigo', tag:'Visual · Event · 2025', title:'Bendigo, CYSM', sum:'Lion dance, shot from inside the crowd.' },
-  { href:'/projects/melbourne-vicentre/', img:'/assets/mvc-hoodie-front.webp', alt:'Melbourne Vicentre club hoodies carrying the new marks', tag:'Brand · Client · 2026', sys:true, title:'Melbourne Vicentre', sum:'Brand system for a club board, on retainer, IP agreed before work began.' },
-  { href:'/visual/#r34', img:'/assets/v/r34-01.webp', alt:'White Nissan R34 GT-R front detail', tag:'Visual · Automotive · 2024', title:'R34 GT-R', sum:'Automotive stills, shot on location.' },
+  { href:'/projects/mend-and-mind/', img:'/assets/mm-human.webp', alt:'Chatbot conversation where the user asks for a real person and the bot hands over to a team member', tag:'Systems · Service design · Academic · 2025', sys:true, title:'Mend & Mind', sum:'A clothes-mending service for students. In a team of three I built the booking chatbot: three prototypes, each changed by testing, wired to a live Airtable API.', fit:'contain' },
+  { href:'/projects/fortus/', img:'/assets/fortus-2.webp', alt:'Two Fortus app screens on phones', tag:'Systems · UI/UX designer · 2024–25', sys:true, title:'Fortus', sum:'Redesigned five interfaces for a fitness product around one component system. The client reports +32% weekly active users.', bg:'#1B1B1B' },
+  { href:'/projects/melbourne-vicentre/', img:'/assets/mvc-hoodie-front.webp', alt:'Melbourne Vicentre club hoodie carrying the new marks', tag:'Brand · Designer & account lead · 2026', sys:true, title:'Melbourne Vicentre', sum:'Live client on retainer. Marks, palette and guidelines for Melbourne Vicentre Swimming Club, reworked when red washed out on navy at the pool.' },
+  { href:'/visual/#ezywrk', img:'/assets/v/ezywrk-03.webp', alt:'Black car with EZYWRK plates in an underground car park', tag:'Visual · Commercial · 2024', title:'Ezywrk', sum:'Commercial car shoot: rolling, tunnel and car-park frames.' },
 ];
 ---
 <Base title="Thomas Chen · Information systems and design, Melbourne">
@@ -68,7 +68,7 @@ const rest = [
       <div class="sel-row two">
         {features.map(w=>(
         <a class="card" href={w.href}>
-          <img src={w.img} alt={w.alt} loading="lazy" style={w.bg ? `background:${w.bg}` : undefined} />
+          <img src={w.img} alt={w.alt} loading="lazy" class={w.fit === 'contain' ? 'fit' : undefined} style={w.bg ? `background:${w.bg}` : undefined} />
           <span class={w.sys ? 'tag sys' : 'tag'}>{w.tag}</span>
           <span class="ttl">{w.title}</span>
           <span class="sum">{w.sum}</span>
@@ -78,7 +78,7 @@ const rest = [
       <div class="sel-row four">
         {rest.map(w=>(
         <a class="card" href={w.href}>
-          <img src={w.img} alt={w.alt} loading="lazy" style={w.bg ? `background:${w.bg}` : undefined} />
+          <img src={w.img} alt={w.alt} loading="lazy" class={w.fit === 'contain' ? 'fit' : undefined} style={w.bg ? `background:${w.bg}` : undefined} />
           <span class={w.sys ? 'tag sys' : 'tag'}>{w.tag}</span>
           <span class="ttl">{w.title}</span>
           <span class="sum">{w.sum}</span>
