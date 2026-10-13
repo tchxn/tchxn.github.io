@@ -127,6 +127,7 @@ a:hover{color:var(--ac)}
 .card .sum{font-size:17px;color:#3A3B41}
 
 /* home selected work: two feature cards, then four portrait cards */
+.card img.fit{object-fit:contain;background:#fff;border:1px solid var(--line);padding:12px}
 .sel{display:flex;flex-direction:column;gap:56px}
 .sel-row{display:grid;gap:40px 24px}
 .sel-row.two{grid-template-columns:repeat(2,minmax(0,1fr))}

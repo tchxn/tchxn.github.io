@@ -3,7 +3,7 @@ order: 2
 title: Fortus
 kind: Product · UX
 image: fortus.webp
-summary: Rebuilt five core interfaces and an analytics dashboard for a fitness product, and replaced screen-by-screen builds with a reusable component system.
+summary: Redesigned five core interfaces and an analytics dashboard for a fitness product, and replaced screen-by-screen builds with a reusable component system.
 meta:
   - label: Role
     value: UI/UX designer
@@ -26,7 +26,7 @@ Fortus had been built screen by screen. Each view solved its own problem in its 
 
 ## What I did
 
-- Rebuilt **five core interfaces**, resolving the hierarchy and consistency problems rather than restyling them
+- Redesigned **five core interfaces**, resolving the hierarchy and consistency problems rather than restyling them
 - Restructured the analytics dashboard across **five data views** so the numbers read as one system
 - Built **10+ reusable Figma components** to replace one-off screens, so new views inherit the patterns instead of reinventing them
 
