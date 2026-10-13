@@ -2,7 +2,7 @@
 order: 5
 title: Melbourne Vicentre
 kind: Brand · Client
-image: mvc-tile.webp
+image: mvc-hoodie.webp
 summary: A brand system for a swimming club board — marks, palette, typography and guidelines, then taken onto the club's apparel. Scoped, quoted and negotiated as a retainer, with IP terms agreed before any work started.
 meta:
   - label: Role

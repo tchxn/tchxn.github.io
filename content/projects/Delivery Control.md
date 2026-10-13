@@ -2,7 +2,7 @@
 order: 1
 title: Delivery Control
 kind: Systems design
-image: dc-tile.webp
+image: dc-thumb.webp
 summary: A family distribution business in Papua New Guinea loses chain of custody the moment stock and cash leave the warehouse. I took the problem apart around one idea — the audit trail is the product. I wrote the specification, data model and permission design, and directed an AI coding agent to build a working prototype. Built and demoed to the owners; not rolled out.
 meta:
   - label: Role
