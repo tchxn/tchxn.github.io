@@ -13,10 +13,11 @@ const { p, prev, next } = Astro.props;
 const { Content } = await render(p);
 const d = p.data;
 ---
-<Base title={`${d.title} — Thomas Chen`} description={d.summary} section="projects">
+<Base title={`${d.title} · Thomas Chen`} description={d.summary} section="projects">
+<div class="wrap page">
 <article class="detail">
-  <a href="/projects/" class="back m">← All projects</a>
-  <p class="m dim">{String(d.order).padStart(2,'0')} · {d.kind}</p>
+  <a href="/projects/" class="back">← All work</a>
+  <p class="kicker" style="margin-top:12px">{String(d.order).padStart(2,'0')} · {d.kind}</p>
   <h1>{d.title}</h1>
   <p class="lede">{d.summary}</p>
 
@@ -37,9 +38,10 @@ const d = p.data;
     </div>
   )}
 
-  <nav class="pager m">
-    <span>{prev ? <a href={`/projects/${prev.id}/`}>← {prev.data.title}</a> : <a href="/projects/">← Index</a>}</span>
-    <span>{next ? <a href={`/projects/${next.id}/`}>{next.data.title} →</a> : <a href="/#a6">Get in touch →</a>}</span>
+  <nav class="pager" aria-label="More work">
+    <span>{prev ? <a href={`/projects/${prev.id}/`}>← {prev.data.title}</a> : <a href="/projects/">← All work</a>}</span>
+    <span>{next ? <a href={`/projects/${next.id}/`}>{next.data.title} →</a> : <a href="/#contact">Get in touch →</a>}</span>
   </nav>
 </article>
+</div>
 </Base>

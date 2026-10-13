@@ -1,178 +1,120 @@
 ---
 import Base from '../layouts/Base.astro';
-import { getCollection, getEntry } from 'astro:content';
 
-const projects = (await getCollection('projects')).sort((a,b)=>a.data.order-b.data.order);
-const visual = await getEntry('visual','visual');
-// Act 04 slideshow: the cover of the first five landscape automotive sets, at full size
-const hero = visual.data.series
-  .filter(s=>s.category==='auto' && s.frames[0].w > s.frames[0].h)
-  .slice(0,5)
-  .map(s=>({ src:`v/${s.frames[0].src}.webp`, title:s.title, kit:s.kit, year:s.year }));
+// Selected work: alternates systems and visual so neither half reads as the afterthought.
+// Delivery Control is left out on purpose: it has its own case section further down.
+const work = [
+  { href:'/projects/fortus/', img:'/assets/fortus.webp', alt:'Fortus app screens', tag:'Systems · 2024–25', sys:true, title:'Fortus', sum:'Five interfaces, one component system. +32% WAU, client figure.', bg:'#000' },
+  { href:'/visual/#bendigo', img:'/assets/v/bendigo-01.webp', alt:'Lion dance costumes against a blue sky in Bendigo', tag:'Visual · 2025', title:'Bendigo, CYSM', sum:'Event coverage, stills and video.' },
+  { href:'/projects/toolbox-education/', img:'/assets/toolbox.webp', alt:'Toolbox Education website on a screen in an office', tag:'Systems · 2025', sys:true, title:'Toolbox Education', sum:'Twenty pages regrouped by who is asking.' },
+  { href:'/visual/#r34', img:'/assets/v/r34-01.webp', alt:'White Nissan R34 GT-R front detail', tag:'Visual · 2024', title:'R34 GT-R', sum:'Automotive stills, shot on location.' },
+  { href:'/projects/melbourne-vicentre/', img:'/assets/mvc-marks.webp', alt:'Melbourne Vicentre brand marks', tag:'Brand · client · 2026', sys:true, title:'Melbourne Vicentre', sum:'Brand system on retainer, IP agreed up front.', framed:true },
+];
 ---
-<Base title="Thomas Chen — Information systems, design, video">
+<Base title="Thomas Chen · Information systems and design, Melbourne">
+<div class="wrap">
 
-<section class="act" id="a0">
-  <video id="reel" poster="/assets/poster.jpg" autoplay muted loop playsinline preload="metadata">
-    <source src="/assets/reel-mobile.mp4" media="(max-width:700px)" type="video/mp4" />
-    <source src="/assets/reel.mp4" type="video/mp4" />
-  </video>
-  <div class="veil"></div>
-  <button class="vbtn m" id="rp">Pause</button>
-  <div class="inner">
-    <h1>Thomas<b>Chen.</b></h1>
-    <div class="roles m">
-      <span><i>✳</i>Information systems</span><span><i>✳</i>UX &amp; service design</span>
-      <span><i>✳</i>Video &amp; photography</span><span><i>✳</i>Team PNG swimmer</span>
-    </div>
+  <div class="meta">
+    <div><b>Practice</b><span>Information systems &amp; design</span></div>
+    <div><b>Based</b><span>Melbourne, AEST</span></div>
+    <div><b>Studying</b><span>M. Information Systems, UniMelb, to 2027</span></div>
+    <div><b>Open to</b><span>BA, systems &amp; product roles · video and photo work</span></div>
   </div>
-</section>
 
-<section class="act" id="a1"><div class="inner">
-  <p class="actno m rv">Act <i>01</i> — Method</p>
-  <h2 class="big rv">I take things apart.</h2>
-  <p class="sub rv">Give me something that isn't working and I'll find where it actually breaks — not where it looks like it breaks. Here's a real one: a handwritten delivery slip from a family distribution business in Papua New Guinea.</p>
-  <div class="dissect">
-    <div class="stage"><span class="cap">01 — As found</span><div class="in">
-      <p class="scrawl">order #—<br />4 × tofu, 2 × noodle<br />K840 cash?<br />driver — <s>the usual guy</s><br />“left this morning”<br /><s>paid? ask later</s></p></div></div>
-    <div class="stage"><span class="cap">02 — Taken apart</span><div class="in">
-      <div class="field"><span>Customer</span><span>identified</span></div>
-      <div class="field"><span>Items · value</span><span>K840.00</span></div>
-      <div class="field"><span>Packed by</span><span class="miss">unrecorded</span></div>
-      <div class="field"><span>Driver · vehicle</span><span class="miss">unlinked</span></div>
-      <div class="field"><span>Delivered</span><span class="miss">unverified</span></div>
-      <div class="field"><span>Cash returned</span><span class="miss">unreconciled</span></div>
-    </div></div>
-    <div class="stage"><span class="cap hi">03 — Put back</span><div class="in">
-      <div class="lrow"><span class="tick">✓</span><span class="who">Packed · warehouse</span><span class="ts">08:12</span></div>
-      <div class="lrow"><span class="tick">✓</span><span class="who">Assigned · dispatcher</span><span class="ts">08:40</span></div>
-      <div class="lrow"><span class="tick">✓</span><span class="who">Delivered · proof captured</span><span class="ts">11:26</span></div>
-      <div class="lrow"><span class="tick">✓</span><span class="who">Cash reconciled · office</span><span class="ts">16:03</span></div>
-    </div></div>
-  </div>
-  <p class="verdict rv">The business thought it had a paperwork problem. It had an <b>accountability</b> problem — nothing tied an order to the person, vehicle and outcome behind it. Once that's the question, the answer stops being "an app" and becomes <b>an audit trail everything else has to serve</b>.</p>
-</div></section>
+  <section class="hero">
+    <h1>I find where operations break, and make the fix easy to see.</h1>
+    <p>Systems and service design is the work. Years behind a camera are why people understand it when I show them. Start with either.</p>
+  </section>
 
-<section class="act" id="a2"><div class="inner">
-  <p class="actno m rv">Act <i>02</i> — Systems</p>
-  <h2 class="big rv">Chain of custody.</h2>
-  <p class="sub rv">Six stages, five roles, permissions enforced at the back end rather than hidden in the interface. The dashed stages are where the stock and the cash were actually going missing.</p>
-  <div class="chain">
-    <div class="node"><p class="st">Stage 01</p><p class="nm">Created</p><p class="rl">Office</p></div>
-    <div class="node"><p class="st">Stage 02</p><p class="nm">Packed</p><p class="rl">Warehouse</p></div>
-    <div class="node"><p class="st">Stage 03</p><p class="nm">Assigned</p><p class="rl">Dispatcher</p></div>
-    <div class="node gap"><p class="st">Stage 04</p><p class="nm">In transit</p><p class="rl">Blind spot</p></div>
-    <div class="node gap"><p class="st">Stage 05</p><p class="nm">Delivered</p><p class="rl">Unverified</p></div>
-    <div class="node"><p class="st">Stage 06</p><p class="nm">Reconciled</p><p class="rl">Manager</p></div>
-  </div>
-  <p class="verdict rv"><b>Delivery Control</b> — systems design, 2026. I wrote the specification, data model and permission design, and directed an AI coding agent to build a working prototype. <b>Built and demoed</b> to the owners; not rolled out.</p>
-  <a class="go m rv" href="/projects/">See all {projects.length} projects →</a>
-</div></section>
-
-<section class="act" id="a3"><div class="inner">
-  <p class="actno m rv">Act <i>03</i> — Structure</p>
-  <h2 class="big rv">Twenty pages, one shape.</h2>
-  <p class="sub rv">Toolbox Education was expanding from Victoria into New South Wales with a site that had grown by accretion. I restructured the information architecture and wired enquiry routing into their CRM pipelines.</p>
-  <div class="ia">
-    <div class="col"><p class="hd">Before — 20+ pages, flat</p>
-      <span class="chip">Managing meltdowns</span><span class="chip">Book a call</span><span class="chip">NES</span>
-      <span class="chip">Programs</span><span class="chip">About</span><span class="chip">NSW?</span>
-      <span class="chip">Contact</span><span class="chip">Workshops</span><span class="chip">Schools</span>
-      <span class="chip">Parents</span><span class="chip">Enquire</span><span class="chip">Resources</span></div>
-    <div class="arrow">──→</div>
-    <div class="col"><p class="hd">After — grouped by who's asking</p>
-      <div class="tree"><p class="g">Programs/</p><p class="c">schools · parents · workshops</p>
-      <p class="g">Regions/</p><p class="c">VIC · NSW</p>
-      <p class="g">Enquire/</p><p class="c">book a call → HubSpot pipeline</p>
-      <p class="g">About/</p><p class="c">team · approach · resources</p></div></div>
-  </div>
-  <p class="verdict rv">The pages weren't the problem. <b>Nobody could tell whether a page was for a parent or a principal</b> — so enquiries landed in the wrong place and got answered twice, or not at all.</p>
-</div></section>
-
-<section class="act" id="a4">
-  <div class="slides" id="slides">
-    {hero.map((s,i)=>(<div class={i===0?'slide on':'slide'}><img src={`/assets/${s.src}`} alt={s.title} loading={i===0?'eager':'lazy'} /></div>))}
-  </div>
-  <div class="veil"></div>
-  <div class="inner">
-    <p class="actno m rv">Act <i>04</i> — Visual</p>
-    <h2 class="big rv">And then there's the other half.</h2>
-    <p class="sub rv">Thirty-plus commercial jobs since 2020 — automotive, brand, event and exhibition work. Directed, shot and cut end to end.</p>
-    <div class="exif m" id="exif"></div>
-    <a class="go m rv" href="/visual/">Open the full archive →</a>
-  </div>
-  <script is:inline define:vars={{hero}}>
-    (function(){
-      const sl=document.getElementById('slides'), ex=document.getElementById('exif');
-      if(!sl||!hero.length) return;
-      let i=0;
-      const paint=()=>{const s=hero[i];ex.innerHTML=
-        `<span>Frame <b>${String(i+1).padStart(2,'0')}/${String(hero.length).padStart(2,'0')}</b></span>`+
-        `<span>Subject <b>${s.title}</b></span>`+(s.kit?`<span>Kit <b>${s.kit}</b></span>`:'')+(s.year?`<span>Year <b>${s.year}</b></span>`:'')};
-      paint();
-      setInterval(()=>{sl.children[i].classList.remove('on');i=(i+1)%hero.length;
-        sl.children[i].classList.add('on');paint()},3600);
-    })();
-  </script>
-</section>
-
-<section class="act" id="a5"><div class="inner">
-  <p class="actno m rv">Act <i>05</i> — Who</p>
-  <h2 class="big rv">Both halves, same person.</h2>
-  <div class="who">
-    <div>
-      <p class="rv">I'm doing a <b>Master of Information Systems</b> at the University of Melbourne, after a design degree majoring in UX. In practice I'm as comfortable modelling roles and permissions as running a usability session.</p>
-      <p class="rv">Since 2022 I've done operations and systems support for a family business in Papua New Guinea: two sites, each a retail front with manufacturing and a warehouse behind it, plus a delivery fleet. That slip in Act 01 is real.</p>
-      <p class="rv">I swim for <b>Papua New Guinea</b> — 50 breaststroke, butterfly, freestyle. World Championships, Pacific Games, Oceania Championships, and Short Course Worlds in Beijing this December. I got back after labrum surgery and an ACL reconstruction. Two years. It taught me more about following a plan than any job has.</p>
-      <p class="rv">Away from a screen I <b>work on cars and fix machinery</b>. Same instinct as everything above: take it apart, find where it's actually failing, put it back properly.</p>
-    </div>
-    <div class="card rv">
-      <div class="pslides" id="pslides" role="button" tabindex="0" aria-label="Show the other photo">
-        <img class="on" src="/assets/me-suit.webp" alt="Thomas Chen in a suit in a Melbourne garden at dusk" data-label="On a screen" style="object-position:center 58%" />
-        <img src="/assets/me-personal.webp" alt="Thomas Chen beside a blue Subaru WRX STI at night" data-label="Off a screen" loading="lazy" />
-        <span class="plabel m" id="plabel">01 / 02 · On a screen</span>
+  <section class="doors" aria-label="Two ways in">
+    <a class="door sys" href="/projects/">
+      <div class="door-head"><b>Systems</b><span>BA · service design · UX</span></div>
+      <div class="slip">
+        <div>
+          <span class="lab">Before · the slip</span>
+          <span class="hand">4 × tofu, 2 × noodle<br />K840 cash?<br />driver: <s>the usual guy</s><br /><s>paid? ask later</s></span>
+        </div>
+        <div>
+          <span class="lab ac">After · the audit trail</span>
+          <span class="row"><span>Packed · warehouse</span><span>08:12</span></span>
+          <span class="row"><span>Assigned · dispatcher</span><span>08:40</span></span>
+          <span class="row"><span>Delivered · proof</span><span>11:26</span></span>
+          <span class="row"><span>Cash reconciled</span><span>16:03</span></span>
+        </div>
       </div>
-      <div class="li"><s>Based</s><em>Melbourne, VIC</em></div>
-      <div class="li"><s>Studying</s><em>M. Information Systems</em></div>
-      <div class="li"><s>Languages</s><em>EN · 中文 · Tok Pisin</em></div>
-      <div class="li"><s>Swimming</s><em>Team PNG, 2023–</em></div>
-      <div class="li"><s>Next meet</s><em>SC Worlds, Beijing</em></div>
+      <div class="door-foot">
+        <span>Delivery Control, Fortus, Toolbox Education and more. Where the process broke, and what I changed.</span>
+        <span class="door-go">Open systems work</span>
+      </div>
+    </a>
+    <a class="door vis" href="/visual/">
+      <img src="/assets/v/s15-03.webp" alt="Black Nissan Silvia S15 at night" />
+      <div class="door-body">
+        <div class="door-head"><b>Visual</b><span>Video · photography</span></div>
+        <div class="door-foot">
+          <span>Thirty-plus commercial jobs since 2020. Automotive, brand, event and exhibition.</span>
+          <span class="door-go">Open the archive</span>
+        </div>
+      </div>
+    </a>
+  </section>
+
+  <section class="sec" id="work">
+    <div class="sec-head"><h2>Selected work</h2><a href="/projects/">All projects</a></div>
+    <div class="cards">
+      {work.map(w=>(
+        <a class="card" href={w.href}>
+          <img src={w.img} alt={w.alt} loading="lazy" class={w.framed ? 'framed' : undefined} style={w.bg ? `background:${w.bg}` : undefined} />
+          <span class={w.sys ? 'tag sys' : 'tag'}>{w.tag}</span>
+          <span class="ttl">{w.title}</span>
+          <span class="sum">{w.sum}</span>
+        </a>
+      ))}
     </div>
-  </div>
-</div></section>
+  </section>
 
-<section class="act" id="a6"><div class="inner">
-  <p class="actno m rv">Act <i>06</i> — Contact</p>
-  <h2 class="big rv">Tell me what's<br />not working.</h2>
-  <p class="sub rv" style="margin:18px auto 0">Hiring for systems, BA or product? Need video or photography? Fifteen minutes is usually enough to know if it's a fit.</p>
-  <div class="cbtns rv">
-    <a class="pri" href="https://cal.com/thomas-chen">Book a call →</a>
-    <a href="mailto:thomasjiahao@gmail.com">Email</a>
-    <a href="https://linkedin.com/in/thomas-j-chen">LinkedIn</a>
-  </div>
-  <p class="m dim rv" style="margin-top:30px">Usually replies within a day · Melbourne, AEST</p>
-</div></section>
+  <section class="sec case" id="case">
+    <div class="case-top"><span class="kicker">Case 01 · Delivery Control</span><span>Problem analysis · systems design · 2026</span></div>
+    <h2>The business thought it had a paperwork problem. It had an accountability problem.</h2>
+    <img src="/assets/dc-dashboard.webp" alt="Delivery Control dashboard showing recent orders and active dispatches" loading="lazy" />
+    <div class="steps">
+      <div><b>As found</b><p>A handwritten slip: order, value, "the usual guy", "paid? ask later". Nothing tied an order to the person, vehicle and outcome behind it.</p></div>
+      <div><b>Taken apart</b><p>Six stages, five roles. In transit and delivered were the blind spots, so that is where stock and cash went missing.</p></div>
+      <div><b>Put back</b><p>An append-only audit trail everything else serves. I wrote the spec and data model and directed an AI agent to build it. Demoed, not yet rolled out.</p></div>
+    </div>
+    <a class="btn" href="/projects/delivery-control/">Read the case study</a>
+  </section>
 
-<script is:inline>
-  const names={a0:'00 — Intro',a1:'01 — Method',a2:'02 — Systems',a3:'03 — Structure',a4:'04 — Visual',a5:'05 — Who',a6:'06 — Contact'};
-  const io=new IntersectionObserver(es=>es.forEach(e=>{
-    if(e.isIntersecting){e.target.classList.add('seen');
-      if(e.intersectionRatio>.5){const f=document.getElementById('f-sec');if(f)f.textContent=names[e.target.id]||''}}
-  }),{threshold:[.15,.55]});
-  document.querySelectorAll('.act').forEach(a=>io.observe(a));
-  // Act 05 portrait: two photos, one person — crossfade, click or Enter to swap
-  (function(){
-    const box=document.getElementById('pslides'); if(!box) return;
-    const imgs=[...box.querySelectorAll('img')], lab=document.getElementById('plabel');
-    let i=0, t;
-    const show=n=>{imgs[i].classList.remove('on');i=(n+imgs.length)%imgs.length;imgs[i].classList.add('on');
-      lab.textContent=`${String(i+1).padStart(2,'0')} / ${String(imgs.length).padStart(2,'0')} · ${imgs[i].dataset.label}`};
-    const auto=()=>{clearInterval(t);if(!matchMedia('(prefers-reduced-motion: reduce)').matches)t=setInterval(()=>show(i+1),4800)};
-    box.onclick=()=>{show(i+1);auto()};
-    box.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();show(i+1);auto()}};
-    auto();
-  })();
-  const vid=document.getElementById('reel'), rp=document.getElementById('rp');
-  if(vid&&rp) rp.onclick=()=>{if(vid.paused){vid.play();rp.textContent='Pause'}else{vid.pause();rp.textContent='Play'}};
-</script>
+  <section class="sec about" id="about">
+    <div class="about-side">
+      <h2>About</h2>
+      <img src="/assets/me-suit.webp" alt="Thomas Chen in a suit in a Melbourne garden at dusk" loading="lazy" />
+      <dl class="facts">
+        <div><dt>Studying</dt><dd>M. Information Systems</dd></div>
+        <div><dt>Before that</dt><dd>B. Design, UX major</dd></div>
+        <div><dt>Languages</dt><dd>English · 中文 · Tok Pisin</dd></div>
+        <div><dt>Swimming</dt><dd>Team PNG, 2023–</dd></div>
+        <div><dt>Next meet</dt><dd>SC Worlds, Beijing</dd></div>
+      </dl>
+    </div>
+    <div class="about-text">
+      <p class="lead">I'm doing a Master of Information Systems at the University of Melbourne, after a design degree majoring in UX. In practice I'm as comfortable modelling roles and permissions as running a usability session.</p>
+      <p>Since 2022 I've done operations and systems support for a family business in Papua New Guinea: two sites, each a retail front with manufacturing and a warehouse behind it, plus a delivery fleet. The slip in Case 01 is real.</p>
+      <p>I swim for Papua New Guinea in the 50 breaststroke, butterfly and freestyle, at World Championships, Pacific Games and Oceania Championships. Coming back from labrum surgery and an ACL reconstruction took two years, and taught me more about following a plan than any job has.</p>
+      <p>Away from a screen I work on cars and fix machinery. Same instinct as everything above.</p>
+    </div>
+  </section>
+
+  <section class="sec contact" id="contact">
+    <span class="kicker">Contact</span>
+    <h2>Tell me what's not working.</h2>
+    <p>Hiring for systems, BA or product? Need video or photography? Fifteen minutes is usually enough to know if it's a fit.</p>
+    <div class="btns">
+      <a class="btn pri" href="https://cal.com/thomas-chen">Book a call</a>
+      <a class="btn" href="mailto:thomasjiahao@gmail.com">thomasjiahao@gmail.com</a>
+      <a class="btn" href="https://linkedin.com/in/thomas-j-chen">LinkedIn</a>
+    </div>
+  </section>
+
+</div>
 </Base>

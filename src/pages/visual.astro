@@ -18,11 +18,11 @@ const sets = Object.fromEntries(series.map(s=>[s.id,{
   frames:s.frames.map(f=>f.src)
 }]));
 ---
-<Base title="Visual archive — Thomas Chen" section="visual">
-<div class="arch">
-  <a href="/" class="back m">← Back to start</a>
-  <h1>Visual archive</h1>
-  <p class="note">tchen.visual — since 2020. Cars, events, commercial work and exhibited art, grouped by shoot. Directed, shot and cut end to end. {series.length} sets, {frames} frames.</p>
+<Base title="Visual archive · Thomas Chen" section="visual">
+<div class="wrap page">
+  <a href="/" class="back">← Home</a>
+  <h1 class="page-title">Visual archive</h1>
+  <p class="page-note">tchen.visual, since 2020. Cars, events, commercial work and exhibited art, grouped by shoot. Directed, shot and cut end to end. {series.length} sets, {frames} frames.</p>
 
   <div class="filters" id="filters">
     {cats.filter(c=>c.n>0).map((c,i)=>(<button class={i===0?'on':''} data-f={c.k}>{c.label} <span class="n">{c.n}</span></button>))}

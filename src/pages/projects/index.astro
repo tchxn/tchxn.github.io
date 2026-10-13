@@ -2,21 +2,25 @@
 import Base from '../../layouts/Base.astro';
 import { getCollection } from 'astro:content';
 const projects = (await getCollection('projects')).sort((a,b)=>a.data.order-b.data.order);
+// the status line is whichever meta entry the project marks as its highlight
+const status = p => p.data.meta.find(m=>m.highlight);
 ---
-<Base title="Projects — Thomas Chen" section="projects">
-<div class="arch">
-  <a href="/" class="back m">← Back to start</a>
-  <h1>Projects</h1>
-  <p class="note">Index — 2023 / 2026. {projects.length} entries, ordered by strength rather than date. Each one states what I actually did, including where a project stopped.</p>
-  <div class="idx">
+<Base title="Work · Thomas Chen" section="projects">
+<div class="wrap page">
+  <a href="/" class="back">← Home</a>
+  <h1 class="page-title">Work</h1>
+  <p class="page-note">{projects.length} projects, 2023 to 2026, ordered by strength rather than date. Each one says what I actually did, including where it stopped.</p>
+  <div class="plist">
     {projects.map(p=>(
-      <a class="row" href={`/projects/${p.id}/`}>
-        <div class="rtop">
-          <span class="num">{String(p.data.order).padStart(2,'0')}</span>
-          <span class="ttl">{p.data.title}</span>
+      <a class="prow" href={`/projects/${p.id}/`}>
+        <span class="num">{String(p.data.order).padStart(2,'0')}</span>
+        <img src={`/assets/${p.data.image}`} alt="" loading="lazy" />
+        <span class="txt">
           <span class="kind">{p.data.kind}</span>
-        </div>
-        <p class="rsum">{p.data.summary}</p>
+          <span class="ttl">{p.data.title}</span>
+          <span class="sum">{p.data.summary}</span>
+          {status(p) && <span class="status">{status(p).label}: <b>{status(p).value}</b></span>}
+        </span>
       </a>
     ))}
   </div>

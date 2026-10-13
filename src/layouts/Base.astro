@@ -1,6 +1,5 @@
 ---
 import '../styles/global.css';
-import '../styles/glass.css';
 const { title = 'Thomas Chen', description = 'Thomas Chen, information systems and design in Melbourne. Systems and service design, UX, video and photography. Master of Information Systems student at the University of Melbourne, finishing December 2027. Swims for Papua New Guinea.', section = '' } = Astro.props;
 const site = 'https://tchxn.github.io';
 ---
@@ -18,51 +17,52 @@ const site = 'https://tchxn.github.io';
 <meta property="og:image" content={`${site}/assets/poster.jpg`} />
 <meta property="og:url" content={site} />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="theme-color" content="#08070F" />
+<meta name="theme-color" content="#FFFFFF" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Atkinson+Hyperlegible+Mono:wght@400;500&family=Atkinson+Hyperlegible+Next:wght@400;500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet" />
 </head>
 <body>
-<div class="amb" aria-hidden="true"><i></i><i></i><i></i></div>
-<div id="bar"></div>
-<div id="top">
-  <a href="/" class="mark m"><span class="sq"></span> Thomas Chen</a>
-  <div class="topnav m">
-    <a href="/projects/" aria-current={section === 'projects' ? 'page' : undefined}>Projects</a>
-    <a href="/visual/" aria-current={section === 'visual' ? 'page' : undefined}>Visual</a>
-    <a href="/#a5">Info</a>
-  </div>
-  <a href="/#a6" class="cta m">Get in touch →</a>
+<div class="wrap">
+  <header class="site-head">
+    <a href="/" class="name">Thomas Chen</a>
+    <nav class="site-nav" id="site-nav" aria-label="Primary">
+      <a href="/projects/" aria-current={section === 'projects' ? 'page' : undefined}>Work</a>
+      <a href="/visual/" aria-current={section === 'visual' ? 'page' : undefined}>Visual</a>
+      <a href="/#about">About</a>
+      <a href="/#contact">Contact</a>
+    </nav>
+    <div class="head-right">
+      <a href="https://cal.com/thomas-chen" class="head-cta">Book a 15-minute call</a>
+      <a href="https://cal.com/thomas-chen" class="btn pri head-book">Book a call</a>
+      <button class="menu-btn" id="menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
+        <svg aria-hidden="true" width="20" height="14" viewBox="0 0 20 14" fill="none" stroke="currentColor" stroke-width="2"><path d="M0 1h20M0 7h20M0 13h20" /></svg>
+      </button>
+    </div>
+  </header>
 </div>
 
 <main><slot /></main>
 
-<div id="foot" class="m">
-  <span><span style="color:var(--ac)">▪</span> <b id="f-sec">{section || '00 — Intro'}</b></span>
-  <span class="hs">Progress <b id="f-p">0%</b></span>
-  <span><b id="f-t">--:--:--</b> AEST</span>
+<div class="wrap">
+  <footer class="site-foot">
+    <span>Thomas Chen · Melbourne · Usually replies within a day</span>
+    <nav aria-label="Elsewhere">
+      <a href="mailto:thomasjiahao@gmail.com">Email</a>
+      <a href="https://linkedin.com/in/thomas-j-chen">LinkedIn</a>
+      <a href="https://cal.com/thomas-chen">Book a call</a>
+    </nav>
+  </footer>
 </div>
 
 <script is:inline>
-  // specular highlight that follows the pointer across glass cards
-  document.querySelectorAll('.stage,.node,.ia .col,.card,.metabar,.tile').forEach(el=>{
-    el.classList.add('lit');
-    el.addEventListener('pointermove',e=>{
-      const r=el.getBoundingClientRect();
-      el.style.setProperty('--x',(e.clientX-r.left)+'px');
-      el.style.setProperty('--y',(e.clientY-r.top)+'px');
-    });
-  });
-  addEventListener('scroll',()=>{
-    const h=document.body.scrollHeight-innerHeight, p=h>0?scrollY/h:0;
-    const fp=document.getElementById('f-p'); if(fp) fp.textContent=Math.round(p*100)+'%';
-    const b=document.getElementById('bar'); if(b) b.style.width=(p*100)+'%';
-  });
-  setInterval(()=>{
-    const el=document.getElementById('f-t');
-    if(el) el.textContent=new Date().toLocaleTimeString('en-AU',{hour12:false,timeZone:'Australia/Melbourne'});
-  },1000);
+  // phone menu: the nav collapses behind one button under 760px
+  (function(){
+    const b=document.getElementById('menu-btn'), n=document.getElementById('site-nav');
+    if(!b||!n) return;
+    b.onclick=()=>{const o=n.classList.toggle('open');b.setAttribute('aria-expanded',o);b.setAttribute('aria-label',o?'Close menu':'Open menu')};
+    n.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{n.classList.remove('open');b.setAttribute('aria-expanded','false')}));
+  })();
 </script>
 </body>
 </html>
