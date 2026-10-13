@@ -126,6 +126,25 @@ a:hover{color:var(--ac)}
 .card:hover .ttl{text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:2px}
 .card .sum{font-size:17px;color:#3A3B41}
 
+/* home selected work: two feature cards, then four portrait cards */
+.sel{display:flex;flex-direction:column;gap:56px}
+.sel-row{display:grid;gap:40px 24px}
+.sel-row.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.sel-row.two .card img{aspect-ratio:3/2}
+.sel-row.two .card .ttl{font-size:30px}
+.sel-row.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+.sel-row.four .card img{aspect-ratio:4/5}
+.sel-row.four .card .ttl{font-size:21px}
+.sel-row.four .card .sum{font-size:16px}
+@media (max-width:1000px){.sel-row.four{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:760px){
+  .sel{gap:32px}
+  .sel-row{gap:32px}
+  .sel-row.two,.sel-row.four{grid-template-columns:1fr}
+  .sel-row.two .card .ttl,.sel-row.four .card .ttl{font-size:22px}
+  .sel-row.four .card img{aspect-ratio:4/3}
+}
+
 /* ---------- home: case ---------- */
 .case{display:flex;flex-direction:column;gap:36px}
 .case-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;font-family:var(--sans);font-size:14px;color:var(--ink3)}

@@ -1,14 +1,17 @@
 ---
 import Base from '../layouts/Base.astro';
 
-// Selected work: alternates systems and visual so neither half reads as the afterthought.
+// Selected work: two feature cards, then four portrait cards alternating systems and visual.
 // Delivery Control is left out on purpose: it has its own case section further down.
-const work = [
-  { href:'/projects/fortus/', img:'/assets/fortus.webp', alt:'Fortus app screens', tag:'Systems · 2024–25', sys:true, title:'Fortus', sum:'Five interfaces, one component system. +32% WAU, client figure.', bg:'#000' },
-  { href:'/visual/#bendigo', img:'/assets/v/bendigo-01.webp', alt:'Lion dance costumes against a blue sky in Bendigo', tag:'Visual · 2025', title:'Bendigo, CYSM', sum:'Event coverage, stills and video.' },
-  { href:'/projects/toolbox-education/', img:'/assets/toolbox.webp', alt:'Toolbox Education website on a screen in an office', tag:'Systems · 2025', sys:true, title:'Toolbox Education', sum:'Twenty pages regrouped by who is asking.' },
-  { href:'/visual/#r34', img:'/assets/v/r34-01.webp', alt:'White Nissan R34 GT-R front detail', tag:'Visual · 2024', title:'R34 GT-R', sum:'Automotive stills, shot on location.' },
-  { href:'/projects/melbourne-vicentre/', img:'/assets/mvc-marks.webp', alt:'Melbourne Vicentre brand marks', tag:'Brand · client · 2026', sys:true, title:'Melbourne Vicentre', sum:'Brand system on retainer, IP agreed up front.', framed:true },
+const features = [
+  { href:'/projects/toolbox-education/', img:'/assets/toolbox.webp', alt:'Toolbox Education website on a screen in an office', tag:'Systems · UX & IA · 2025', sys:true, title:'Toolbox Education', sum:'Ten-week internship. A 20+ page site regrouped by who is asking, with enquiries routed into HubSpot.' },
+  { href:'/projects/an-extension-of-myself/', img:'/assets/exh-install.webp', alt:'Thomas standing between a black and a pink guardian lion under the exhibition title wall', tag:'Visual · Exhibition · 2023', title:'An Extension of Myself', sum:'First solo exhibition, Court House Gallery, Cairns. Earned through the Tanks Arts Centre Curator\'s Award.' },
+];
+const rest = [
+  { href:'/projects/fortus/', img:'/assets/fortus-2.webp', alt:'Two Fortus app screens on phones', tag:'Systems · Product · 2024–25', sys:true, title:'Fortus', sum:'Five interfaces, one component system. +32% weekly active users, client figure.', bg:'#1B1B1B' },
+  { href:'/visual/#bendigo', img:'/assets/v/bendigo-01.webp', alt:'Lion dance costumes against a blue sky in Bendigo', tag:'Visual · Event · 2025', title:'Bendigo, CYSM', sum:'Lion dance, shot from inside the crowd.' },
+  { href:'/projects/melbourne-vicentre/', img:'/assets/mvc-hoodie-front.webp', alt:'Melbourne Vicentre club hoodies carrying the new marks', tag:'Brand · Client · 2026', sys:true, title:'Melbourne Vicentre', sum:'Brand system for a club board, on retainer, IP agreed before work began.' },
+  { href:'/visual/#r34', img:'/assets/v/r34-01.webp', alt:'White Nissan R34 GT-R front detail', tag:'Visual · Automotive · 2024', title:'R34 GT-R', sum:'Automotive stills, shot on location.' },
 ];
 ---
 <Base title="Thomas Chen · Information systems and design, Melbourne">
@@ -61,15 +64,27 @@ const work = [
 
   <section class="sec" id="work">
     <div class="sec-head"><h2>Selected work</h2><a href="/projects/">All projects</a></div>
-    <div class="cards">
-      {work.map(w=>(
+    <div class="sel">
+      <div class="sel-row two">
+        {features.map(w=>(
         <a class="card" href={w.href}>
-          <img src={w.img} alt={w.alt} loading="lazy" class={w.framed ? 'framed' : undefined} style={w.bg ? `background:${w.bg}` : undefined} />
+          <img src={w.img} alt={w.alt} loading="lazy" style={w.bg ? `background:${w.bg}` : undefined} />
           <span class={w.sys ? 'tag sys' : 'tag'}>{w.tag}</span>
           <span class="ttl">{w.title}</span>
           <span class="sum">{w.sum}</span>
         </a>
-      ))}
+        ))}
+      </div>
+      <div class="sel-row four">
+        {rest.map(w=>(
+        <a class="card" href={w.href}>
+          <img src={w.img} alt={w.alt} loading="lazy" style={w.bg ? `background:${w.bg}` : undefined} />
+          <span class={w.sys ? 'tag sys' : 'tag'}>{w.tag}</span>
+          <span class="ttl">{w.title}</span>
+          <span class="sum">{w.sum}</span>
+        </a>
+        ))}
+      </div>
     </div>
   </section>
 
