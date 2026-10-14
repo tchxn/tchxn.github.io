@@ -1,5 +1,5 @@
 ---
-order: 2
+order: 3
 title: Fortus
 kind: Product · UX
 image: fortus.webp

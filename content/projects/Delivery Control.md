@@ -3,7 +3,7 @@ order: 1
 title: Delivery Control
 kind: Systems design
 image: dc-thumb.webp
-summary: A family distribution business in Papua New Guinea loses chain of custody the moment stock and cash leave the warehouse. I took the problem apart around one idea — the audit trail is the product. I wrote the specification, data model and permission design, and directed an AI coding agent to build a working prototype. Built and demoed to the owners; not rolled out.
+summary: A family distribution business in Papua New Guinea loses chain of custody the moment stock and cash leave the warehouse. I took the problem apart around one idea — the audit trail is the product. I wrote the specification, data model and permission design, and directed an AI coding agent to build a working prototype. Built and demoed to the owners, who agreed to a trial. Not rolled out yet.
 meta:
   - label: Role
     value: Problem analysis · systems design
@@ -82,4 +82,8 @@ The rules live in the database, not the interface:
 
 ## Where it stopped
 
-Built and demoed to the owners; not rolled out. They backed it and want to trial it. Rolling it out means training staff on it, and there hasn't been time to do that yet — so the open problem now is adoption, not the build.
+The owners agreed to trial it. Two things stand between the prototype and that trial.
+
+The first is hosting. It runs on my machine. Before it holds real orders and cash, it has to move to its own hosting with the data kept somewhere secure, and that is the next piece of work.
+
+The second is adoption, and the owners raised it before I did. The design fits the problem, but a system like this only works if the people at the end of the chain use it every time: drivers confirming a delivery, staff recording cash. The real test of the trial is whether the workflow fits how the team actually works, and what training it needs. A control that staff route around is not a control.

@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900" role="img" aria-labelledby="t d">
+  <title id="t">Point-of-sale consolidation, before and after</title>
+  <desc id="d">Before: four point-of-sale systems with no shared stock record. After: one cloud system with two stores and a warehouse as channels, visible to head office.</desc>
+  <defs>
+    <style>
+      text{font-family:'Schibsted Grotesk','Helvetica Neue',Arial,sans-serif;fill:#111214}
+      .h{font-size:26px;font-weight:700;letter-spacing:.06em}
+      .ac{fill:#2B45D6}
+      .grp{font-size:17px;font-weight:600;fill:#45464D}
+      .sys{font-size:20px;font-weight:600}
+      .sm{font-size:15px;fill:#45464D}
+      .cap{font-size:18px;fill:#45464D}
+      .box{fill:#FFFFFF;stroke:#111214;stroke-width:2}
+      .site{fill:#F4F5F7;stroke:#DADAD6;stroke-width:2}
+      .glyph{fill:none;stroke:#45464D;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+      .acbox{fill:#FFFFFF;stroke:#2B45D6;stroke-width:3}
+      .acfill{fill:#2B45D6}
+      .link{stroke:#2B45D6;stroke-width:3}
+      .ch{fill:#EEF1FD;stroke:#2B45D6;stroke-width:2}
+    </style>
+    <!-- one standalone system: a computer and the one person who enters its stock -->
+    <g id="pc">
+      <rect class="glyph" x="0" y="0" width="54" height="36" rx="3"/>
+      <path class="glyph" d="M27 36v10M15 46h24"/>
+      <circle class="glyph" cx="92" cy="12" r="9"/>
+      <path class="glyph" d="M75 46c0-11 8-18 17-18s17 7 17 18"/>
+    </g>
+  </defs>
+
+  <rect width="1200" height="900" fill="#FFFFFF"/>
+
+  <!-- BEFORE -->
+  <text class="h" x="40" y="62">BEFORE</text>
+  <text class="cap" x="40" y="94">Four systems, no shared stock record</text>
+
+  <rect class="site" x="40" y="122" width="520" height="330" rx="6"/>
+  <text class="grp" x="62" y="154">Site 1</text>
+  <rect class="box" x="62" y="176" width="226" height="250" rx="4"/>
+  <text class="sys" x="84" y="214">System 1</text>
+  <use href="#pc" x="84" y="250"/>
+  <text class="sm" x="84" y="350">own computer</text>
+  <text class="sm" x="84" y="374">own data entry</text>
+  <text class="sm" x="84" y="398">own stock count</text>
+  <rect class="box" x="312" y="176" width="226" height="250" rx="4"/>
+  <text class="sys" x="334" y="214">System 2</text>
+  <use href="#pc" x="334" y="250"/>
+  <text class="sm" x="334" y="350">own computer</text>
+  <text class="sm" x="334" y="374">own data entry</text>
+  <text class="sm" x="334" y="398">own stock count</text>
+
+  <rect class="site" x="40" y="482" width="520" height="330" rx="6"/>
+  <text class="grp" x="62" y="514">Site 2</text>
+  <rect class="box" x="62" y="536" width="226" height="250" rx="4"/>
+  <text class="sys" x="84" y="574">System 3</text>
+  <use href="#pc" x="84" y="610"/>
+  <text class="sm" x="84" y="710">own computer</text>
+  <text class="sm" x="84" y="734">own data entry</text>
+  <text class="sm" x="84" y="758">own stock count</text>
+  <rect class="box" x="312" y="536" width="226" height="250" rx="4"/>
+  <text class="sys" x="334" y="574">System 4</text>
+  <use href="#pc" x="334" y="610"/>
+  <text class="sm" x="334" y="710">own computer</text>
+  <text class="sm" x="334" y="734">own data entry</text>
+  <text class="sm" x="334" y="758">own stock count</text>
+
+  <text class="cap" x="40" y="856">Transfers between warehouse and store: no record</text>
+
+  <!-- divider -->
+  <line x1="600" y1="40" x2="600" y2="860" stroke="#DADAD6" stroke-width="2"/>
+
+  <!-- AFTER -->
+  <text class="h ac" x="640" y="62">AFTER</text>
+  <text class="cap" x="640" y="94">One system, one view of every item</text>
+
+  <!-- head office -->
+  <rect class="box" x="780" y="140" width="280" height="84" rx="4"/>
+  <text class="sys" x="920" y="190" text-anchor="middle">Head office</text>
+  <line class="link" x1="920" y1="224" x2="920" y2="330"/>
+  <text class="sm" x="934" y="284">sees sales and stock</text>
+  <text class="sm" x="934" y="306">from anywhere</text>
+
+  <!-- the cloud system -->
+  <rect class="acbox" x="660" y="330" width="520" height="150" rx="6"/>
+  <path class="glyph" d="M700 418c-12 0-20-8-20-19s9-19 20-19c3-13 14-22 28-22 12 0 22 7 26 17 2-1 5-1 7-1 12 0 21 9 21 21s-9 23-21 23z" style="stroke:#2B45D6"/>
+  <text class="sys" x="808" y="400">One cloud system</text>
+  <text class="sm" x="808" y="428">three channels, one stock record</text>
+
+  <!-- channels -->
+  <line class="link" x1="755" y1="480" x2="755" y2="600"/>
+  <line class="link" x1="920" y1="480" x2="920" y2="600"/>
+  <line class="link" x1="1085" y1="480" x2="1085" y2="600"/>
+  <rect class="ch" x="680" y="600" width="150" height="96" rx="4"/>
+  <text class="sys" x="755" y="656" text-anchor="middle">Store 1</text>
+  <rect class="ch" x="845" y="600" width="150" height="96" rx="4"/>
+  <rect class="ch" x="1010" y="600" width="150" height="96" rx="4"/>
+  <text class="sys" x="920" y="656" text-anchor="middle">Store 2</text>
+  <text class="sys" x="1085" y="656" text-anchor="middle">Warehouse</text>
+
+  <text class="cap" x="640" y="760">Head office can check any site by logging in</text>
+  <text class="cap" x="640" y="790">Stocktakes scanned and checked in one step</text>
+</svg>

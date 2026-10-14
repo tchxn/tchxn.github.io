@@ -309,3 +309,21 @@ a:hover{color:var(--ac)}
 }
 
 ::selection{background:rgba(43,69,214,.18)}
+
+/* case-study image viewer: click any figure image; zoom shows full resolution */
+.prose figure img.zoomable,.shots img.zoomable{cursor:zoom-in;transition:opacity .15s}
+.prose figure img.zoomable:hover,.shots img.zoomable:hover{opacity:.92}
+.zv{grid-template-rows:auto 1fr}
+.zv .lb-top{gap:10px}
+.zv .lb-meta span{color:#E4E4E0;font-family:var(--sans);font-size:14px;line-height:1.4;max-width:70ch;
+  overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.zv .lb-n{margin-left:auto}
+.zv .lb-stage{padding:0 72px 24px}
+.zv .lb-stage img{cursor:zoom-in;background:#fff}
+.zv.zoomed .lb-stage{display:block;overflow:auto;padding:0;cursor:grab;overscroll-behavior:contain}
+.zv.zoomed .lb-stage:active{cursor:grabbing}
+.zv.zoomed .lb-stage img{max-width:none;max-height:none;width:auto;height:auto;display:block;margin:0 auto;cursor:zoom-out}
+.zv.zoomed .lb-prev,.zv.zoomed .lb-next{display:none}
+@media(max-width:700px){.zv .lb-stage{padding:0 8px 64px}}
+/* tall diagrams: full page width; click to zoom for detail */
+.prose figure.shot.tall img{width:100%;display:block;background:#0E0E10}

@@ -38,10 +38,84 @@ const d = p.data;
     </div>
   )}
 
+  <dialog id="zv" class="lb zv single" aria-label="Image viewer">
+    <div class="lb-top">
+      <div class="lb-meta"><span id="zv-cap"></span></div>
+      <span class="lb-n" id="zv-n"></span>
+      <button class="lb-btn" id="zv-zoom" aria-label="Zoom to full size">＋</button>
+      <button class="lb-btn" id="zv-x" aria-label="Close">✕</button>
+    </div>
+    <div class="lb-stage" id="zv-stage">
+      <button class="lb-btn lb-prev" id="zv-prev" aria-label="Previous image">←</button>
+      <img id="zv-img" alt="" />
+      <button class="lb-btn lb-next" id="zv-next" aria-label="Next image">→</button>
+    </div>
+  </dialog>
+
   <nav class="pager" aria-label="More work">
     <span>{prev ? <a href={`/projects/${prev.id}/`}>← {prev.data.title}</a> : <a href="/projects/">← All work</a>}</span>
     <span>{next ? <a href={`/projects/${next.id}/`}>{next.data.title} →</a> : <a href="/#contact">Get in touch →</a>}</span>
   </nav>
 </article>
 </div>
+
+<script is:inline>
+  // Every image in a case study opens large; zoom shows it at full resolution.
+  // Source priority: data-full on the img, then a wrapping link to an image file, then the img itself.
+  (function(){
+    const imgs=[...document.querySelectorAll('.prose figure img, .shots img')];
+    if(!imgs.length) return;
+    const dlg=document.getElementById('zv'), view=document.getElementById('zv-img'), stage=document.getElementById('zv-stage');
+    const $=id=>document.getElementById(id);
+    const isImg=h=>/\.(webp|png|jpe?g|avif)(\?|$)/i.test(h||'');
+    const src=el=>el.dataset.full || (isImg(el.closest('a')?.getAttribute('href')) ? el.closest('a').getAttribute('href') : el.currentSrc || el.src);
+    const cap=el=>(el.closest('figure')?.querySelector('figcaption')?.textContent || el.alt || '').trim();
+    let i=0;
+    dlg.classList.toggle('single', imgs.length<2);
+    function setZoom(on){
+      dlg.classList.toggle('zoomed',on);
+      $('zv-zoom').textContent=on?'－':'＋';
+      $('zv-zoom').setAttribute('aria-label',on?'Fit to screen':'Zoom to full size');
+      if(!on) stage.scrollTo(0,0);
+    }
+    function show(n){
+      i=(n+imgs.length)%imgs.length; setZoom(false);
+      view.classList.remove('in'); view.src=src(imgs[i]); view.alt=imgs[i].alt;
+      view.onload=()=>view.classList.add('in');
+      $('zv-cap').textContent=cap(imgs[i]);
+      $('zv-n').textContent=`${i+1} / ${imgs.length}`;
+    }
+    imgs.forEach((el,k)=>{
+      el.classList.add('zoomable'); el.tabIndex=0;
+      const go=e=>{ e.preventDefault(); show(k); dlg.showModal(); document.documentElement.style.overflow='hidden'; };
+      el.addEventListener('click',go);
+      el.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' ') go(e); });
+    });
+    dlg.addEventListener('close',()=>{ document.documentElement.style.overflow=''; setZoom(false); });
+    $('zv-x').onclick=()=>dlg.close();
+    $('zv-zoom').onclick=()=>setZoom(!dlg.classList.contains('zoomed'));
+    $('zv-prev').onclick=()=>show(i-1);
+    $('zv-next').onclick=()=>show(i+1);
+    // click the picture to zoom in at that spot; click again to fit
+    let dragged=false;
+    view.addEventListener('click',e=>{
+      if(dragged){ dragged=false; return; }
+      if(dlg.classList.contains('zoomed')){ setZoom(false); return; }
+      const r=view.getBoundingClientRect(), fx=(e.clientX-r.left)/r.width, fy=(e.clientY-r.top)/r.height;
+      setZoom(true);
+      requestAnimationFrame(()=>stage.scrollTo(fx*view.offsetWidth-stage.clientWidth/2, fy*view.offsetHeight-stage.clientHeight/2));
+    });
+    // drag to pan when zoomed (touch uses native scrolling)
+    let drag=null;
+    stage.addEventListener('pointerdown',e=>{ if(!dlg.classList.contains('zoomed')||e.pointerType==='touch') return;
+      drag={x:e.clientX,y:e.clientY,l:stage.scrollLeft,t:stage.scrollTop}; dragged=false; });
+    addEventListener('pointermove',e=>{ if(!drag) return; const dx=e.clientX-drag.x, dy=e.clientY-drag.y;
+      if(Math.abs(dx)+Math.abs(dy)>4) dragged=true; stage.scrollTo(drag.l-dx, drag.t-dy); });
+    addEventListener('pointerup',()=>{ drag=null; });
+    addEventListener('keydown',e=>{ if(!dlg.open) return;
+      if(e.key==='ArrowRight') show(i+1); else if(e.key==='ArrowLeft') show(i-1);
+      else if(e.key==='+'||e.key==='=') setZoom(true); else if(e.key==='-') setZoom(false); });
+    dlg.addEventListener('click',e=>{ if(e.target===dlg) dlg.close(); });
+  })();
+</script>
 </Base>

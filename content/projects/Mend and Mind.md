@@ -1,5 +1,5 @@
 ---
-order: 4
+order: 6
 title: Mend & Mind
 kind: Service design · Conversational UX
 image: mend-journey.webp
@@ -34,16 +34,26 @@ This was a team of three. The service concept, journey map and website wireframe
 - **Prototype 2** added a sign-in step for returning students and account creation for new ones, and a summary at the end. Testing found it gave up too quickly: if no workshop time suited, the conversation just ended.
 - **Prototype 3** re-offered times or handed over to a person when nothing fitted, ended every flow with an email confirmation prompt, and let users loop back to the start. The last round of feedback was about branches that trailed off, so I closed every one.
 
-<figure class="shot">
-  <img src="/assets/mm-prototypes.webp" alt="Three chatbot flow diagrams side by side, each larger and more branched than the last" loading="lazy" />
-  <figcaption>Prototypes 1 to 3. The first is two straight lines; by the third, every branch has a sign-in check, a re-prompt and an ending.</figcaption>
+<figure class="shot tall">
+  <img src="/assets/mm-proto-1.webp" data-full="/assets/mm-proto-1-full.webp" alt="Prototype 1 flow: chat start, then two straight paths, booking a drop and collect service or signing up for a workshop" loading="lazy" />
+  <figcaption>Prototype 1. Two straight lines: book a repair, or join a workshop. Click to zoom.</figcaption>
+</figure>
+
+<figure class="shot tall">
+  <img src="/assets/mm-proto-2.webp" data-full="/assets/mm-proto-2-full.webp" alt="Prototype 2 flow: adds a returning-or-new user check with student ID capture, and a summary at the end of each branch" loading="lazy" />
+  <figcaption>Prototype 2. Adds the sign-in check, returning student or new, and a summary at the end. Click to zoom.</figcaption>
+</figure>
+
+<figure class="shot tall">
+  <img src="/assets/mm-proto-3.webp" data-full="/assets/mm-proto-3-full.webp" alt="Prototype 3 flow: a fallback intent that clarifies what each service is, re-prompts when no time fits, a handover to a person, and an email confirmation that loops back to the start" loading="lazy" />
+  <figcaption>Prototype 3. Every branch now has a re-prompt, a way to a person and an ending, and the flow loops back so you can book again. Click to zoom.</figcaption>
 </figure>
 
 **The final implementation.** I designed and built the whole Voiceflow diagram. The finished bot is organised around three intents — drop and collect, workshop enrolment, human assistance — colour-coded on the canvas by purpose so the logic stays readable as it grows.
 
 <figure class="shot">
   <a href="/assets/mm-voiceflow-full.webp" target="_blank" rel="noopener"><img src="/assets/mm-voiceflow.webp" alt="The full Voiceflow canvas: colour-coded blocks for each intent, with API, re-prompt and end blocks" loading="lazy" /></a>
-  <figcaption>The whole Voiceflow diagram. Each colour is a job: the two booking intents, onboarding, API calls to Airtable, re-prompts, endings. Open it full size to read every block.</figcaption>
+  <figcaption>The whole Voiceflow diagram. Each colour is a job: the two booking intents, onboarding, API calls to Airtable, re-prompts, endings. Click to zoom in and read every block.</figcaption>
 </figure>
 
 <figure class="shot">
