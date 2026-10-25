@@ -41,7 +41,7 @@ A small local web app reads the notes and exports every time the page refreshes,
 
 - **Logging writes one row and nothing else.** A swim time, pool session or benchmark entered in the app is added as a single new row in the right note. The note is backed up first, and a day that is already logged is never overwritten.
 - **Missing data is shown as missing.** An event with no short-course time says so and points to where it should be entered, instead of drawing an empty chart.
-- **Gym sessions sync from my lifting app**, so the gym side fills itself in.
+- **Gym sessions come in on their own.** See below.
 
 <figure class="shot">
   <img src="/assets/sg-numbers.webp" alt="Grid of metric tiles: race times by event and course, training times for 25, 35 and 50 m breaststroke, and gym benchmarks for weighted pull-up, pull-up max, box jump and bodyweight, each with a change badge and trend line" loading="lazy" />
@@ -51,6 +51,15 @@ A small local web app reads the notes and exports every time the page refreshes,
 <figure class="shot">
   <img src="/assets/sg-activity.webp" alt="Twelve-month activity grid, one square per day, darker for days with both a swim and a gym session, with race days outlined and gaps at Christmas and after a meet" loading="lazy" />
   <figcaption>A year on one grid. The gaps are planned: Christmas, and the rest week after a meet. Demo data.</figcaption>
+</figure>
+
+## The gym side: openGym
+
+I log lifting in openGym, an open-source workout app that I host myself. It runs on my own machine and my phone reaches it over a private network (Tailscale), so the logs never sit on someone else's server. Every five minutes the dashboard pulls finished workouts into my notes. The sync only reads from openGym and never writes back, and a workout imported from an older app is not counted twice.
+
+<figure class="shot">
+  <img src="/assets/sg-opengym.webp" alt="openGym stats screen: 21 workouts, an 11-week streak, a 12-month activity grid, and a front and back body map shaded by sets worked per muscle over 90 days" loading="lazy" />
+  <figcaption>openGym on its own: streak, activity and which muscles the last 90 days actually hit. Demo profile with a generic starter plan.</figcaption>
 </figure>
 
 ## The race replay
