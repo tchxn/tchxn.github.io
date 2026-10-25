@@ -1,5 +1,5 @@
 ---
-order: 10
+order: 3
 title: Swim + Gym
 kind: Personal tool · Data visualisation
 image: sg-thumb.webp

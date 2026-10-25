@@ -1,5 +1,5 @@
 ---
-order: 7
+order: 8
 title: Melbourne Vicentre
 kind: Brand · Client
 image: mvc-hoodie.webp

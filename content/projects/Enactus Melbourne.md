@@ -1,5 +1,5 @@
 ---
-order: 9
+order: 10
 title: Enactus Melbourne
 kind: UI/UX · Content design
 image: enactus.webp

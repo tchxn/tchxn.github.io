@@ -1,5 +1,5 @@
 ---
-order: 8
+order: 9
 title: An Extension of Myself
 kind: Exhibition · Photography
 image: exh-show.webp

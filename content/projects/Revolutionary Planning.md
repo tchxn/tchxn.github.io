@@ -1,5 +1,5 @@
 ---
-order: 4
+order: 5
 title: Revolutionary Planning
 kind: Discovery · Requirements
 image: rp-tile.webp

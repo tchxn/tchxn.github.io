@@ -1,5 +1,5 @@
 ---
-order: 5
+order: 6
 title: Toolbox Education
 kind: UX · IA · Process
 image: toolbox.webp

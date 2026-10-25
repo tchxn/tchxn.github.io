@@ -1,5 +1,5 @@
 ---
-order: 6
+order: 7
 title: Mend & Mind
 kind: Service design · Conversational UX
 image: mend-journey.webp
