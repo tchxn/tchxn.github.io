@@ -75,34 +75,25 @@ a:hover{color:var(--ac)}
 
 /* ---------- home: the two doors ---------- */
 .doors{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(560px,100%),1fr));gap:20px;padding-bottom:96px}
-.door{display:flex;flex-direction:column;min-height:600px;text-decoration:none;color:var(--ink)}
-.door:hover{color:var(--ink)}
+.door{display:flex;flex-direction:column;text-decoration:none;color:var(--ink);background:var(--bg);
+  border:1px solid var(--line);transition:border-color .15s}
+.door:hover{color:var(--ink);border-color:var(--ink)}
+.door img{width:100%;aspect-ratio:4/3;object-fit:cover;object-position:top left;border-bottom:1px solid var(--line);background:var(--soft)}
+.door-body{display:flex;flex-direction:column;gap:16px;padding:28px 32px 32px;flex:1}
 .door-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-family:var(--sans)}
 .door-head b{font-size:32px;font-weight:700;letter-spacing:-.02em}
 .door-head span{font-size:14px;color:var(--ink3)}
-.door-foot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px}
+.door-foot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:18px 24px;margin-top:auto}
 .door-foot span:first-child{max-width:24em;font-size:18px;color:var(--ink2)}
-.door-go{font-family:var(--sans);font-weight:600;font-size:16px;color:var(--ac)}
-.door:hover .door-go{text-decoration:underline;text-underline-offset:4px}
-.door.sys{gap:28px;padding:32px;background:var(--soft);justify-content:space-between}
-.door.vis{border:1px solid var(--line)}
-.door.vis img{width:100%;flex:1 1 auto;min-height:380px;object-fit:cover}
-.door.vis .door-body{display:flex;flex-direction:column;gap:14px;padding:28px 32px 32px}
-.slip{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));gap:14px}
-.slip > div{background:var(--bg);border:1px solid var(--line);padding:18px;display:flex;flex-direction:column}
-.slip .lab{font-family:var(--sans);font-size:13px;font-weight:600;color:var(--ink3);padding-bottom:8px}
-.slip .lab.ac{color:var(--ac)}
-.slip .hand{font-style:italic;font-size:18px;line-height:1.6}
-.slip .row{display:flex;justify-content:space-between;gap:8px;padding:8px 0;border-top:1px solid var(--line2);
-  font-family:var(--sans);font-size:15px}
-.slip .row span:last-child{color:var(--ink3)}
+.door .btn{white-space:nowrap}
+.door:hover .btn.pri{background:#1F34AE;border-color:#1F34AE}
 @media (max-width:760px){
   .doors{gap:14px;padding-bottom:64px}
-  .door{min-height:0}
-  .door.sys{padding:20px;gap:20px}
-  .door.vis img{min-height:0;aspect-ratio:4/3}
-  .door.vis .door-body{padding:18px 20px 20px}
+  .door-body{padding:18px 20px 20px;gap:12px}
+  .door-head{flex-direction:column;align-items:flex-start;gap:2px}
   .door-head b{font-size:26px}
+  .door-foot span:first-child{font-size:17px}
+  .door-foot .btn{width:100%}
 }
 
 /* ---------- sections ---------- */
